@@ -1,0 +1,18 @@
+@import url('../fonts/instagram-sans/stylesheet.css');
+
+body{
+    background-color: #FFF;
+    font-family: 'Instagram Sans', sans-serif;
+}
+
+a{
+    text-decoration: none;
+    
+}
+
+button{
+    border: none;
+    background-color: transparent;
+    outline: none;
+    cursor: pointer;
+}

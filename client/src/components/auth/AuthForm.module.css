@@ -1,0 +1,187 @@
+@import url('../../css/variables.css');
+
+.sectionWrapper{
+    max-width: 350px;
+    margin: 12px auto;
+    padding: 10px 0;
+}
+
+.upperSection,
+.lowerSection{
+    border: 1px solid #cecece;
+}
+
+.logoWrapper{
+    text-align: center;
+    margin: 36px 0px 12px 0
+}
+
+.formRow{
+    position: relative;
+    margin: 3px 40px;
+    text-align: center;
+}
+
+.formRow label{
+    position: absolute;
+    top: 0px;
+    left: 9px;
+    line-height: 36px;
+    font-weight: 300;
+    font-size: 12px;
+    cursor: text;
+    transition: 100ms ease-in-out;
+}
+.formRow button{
+    width: 100%;
+    background-color: var(--ig-primary-button);
+    color: #FFF;
+    font-weight: 500;
+    border-radius: 8px;
+    font-size: 14px;
+    padding: 4px;
+    margin-top: 6px;
+}
+
+.authForm{
+    margin-bottom: 20px;
+}
+
+.authForm input,
+.confirmationWrapper input{
+    background-color: #FAFAFA;
+    border: 0.5px solid #cecece;
+    border-radius: 2px;
+    padding: 9px 0 3px 8px;
+    max-height: 36px;
+    width: 100%;
+    font-size: 14px;
+}
+.authForm input:focus{
+    outline: none;
+    border: 1px solid #807e7ed7;
+    box-shadow: 0px 0px 1px #807e7ed7;
+}
+
+.authForm .filledInput label{
+    left: 3px;
+    transform:scale(calc(10 / 12)) translateY(-10px)
+}
+.authForm .filledInput input{
+    font-size: 14px;
+    margin-top: 2px;
+}
+
+.authForm form{
+    display: flex;
+    flex-direction: column;
+}
+
+.authSeparator{
+    display: flex;
+    align-items: center;
+    margin: 12px 0;
+}
+.authSeparator span{
+    margin: 0 22px;
+    color: rgb(115, 115, 115);
+    font-size: 13px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+.separator{
+    height: 0.5px;
+    background-color: #cecece;
+    flex-grow: 1;
+}
+
+.forgottenPass{
+    display: inline-block;
+    font-size: 12px;
+    margin-bottom: 12px;
+    color: var(--ig-link);
+}
+
+.logo{
+    background-image: url(https://static.cdninstagram.com/rsrc.php/v3/yx/r/WtxJZZ3-9ZP.png);
+    width: 176px;
+    height: 55px;
+    display: inline-block;
+    background-size: 176px 186px;
+}
+
+
+.lowerSection{
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+.lowerBtnWrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 24px 0;
+    gap: 4px;
+}
+.lowerBtnWrapper a{
+    color: var(--ig-primary-button);
+    font-weight: 500;
+}
+
+
+.showPassword{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+.showPassword:hover{
+    opacity: .5;
+}
+
+.registerHeading{
+    font-size: 17px;
+    color: var(--ig-secondary-text);
+    font-weight: 600;
+    line-height: 20px;
+    margin: 0 0 10px;
+    text-align: center;
+}
+
+.privacyPolicyText{
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: center;
+    color: var(--ig-secondary-text); 
+    word-break: break-word;
+}
+
+.confirmationWrapper .envelopePicture{
+    background-image: url('https://static.cdninstagram.com/rsrc.php/v3/y8/r/ZWR9C7_JdnP.png');
+    background-position: 119px 0;
+    display: block;
+    width: 92px;
+    height: 72px;
+    margin: 10px auto;
+}
+.confirmationWrapper{
+    font-size: 14px;
+}
+.confirmationWrapper > * {
+    margin: 12px 0;
+}
+button.backButton{
+    background: transparent;
+    color: var(--ig-primary-button);
+}
+
+@media (max-width:450px){
+    .upperSection,
+    .lowerSection{
+        border: none;
+    }
+}
