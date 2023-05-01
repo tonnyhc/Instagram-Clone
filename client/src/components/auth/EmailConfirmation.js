@@ -1,7 +1,12 @@
 import styles from './AuthForm.module.css'
 
 
-const EmailConfirmation = () => {
+const EmailConfirmation = ({
+    confirmationCode,
+    setConfirmatioCode,
+    confirmEmail
+}) => {
+
     return (
         <div className={styles.confirmationWrapper}>
             <div className={styles.formRow}>
@@ -16,13 +21,22 @@ const EmailConfirmation = () => {
                 <p>Enter the confirmation code we sent to tonipetrov121@gmail.com. </p>
             </div>
 
-            <form>
+            <form onSubmit={confirmEmail}>
 
                 <div className={styles.formRow}>
-                    <input type="text" name='emailConfirmCode' id='emailConfirmCode' placeholder="Confirmation code" />
+                    <input 
+                    type="text" 
+                    name='code' 
+                    id='emailConfirmCode' 
+                    placeholder="Confirmation code" 
+                    value={confirmationCode.code}
+                    onChange={setConfirmatioCode}
+                    />
                 </div>
                 <div className={styles.formRow}>
-                    <button>Next</button>
+                    <button
+                    className={confirmationCode.code.length < 6 && styles.disabledBtn}
+                    >Next</button>
 
                 </div>
                 <div className={styles.formRow}>

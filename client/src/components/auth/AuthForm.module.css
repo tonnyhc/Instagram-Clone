@@ -43,6 +43,17 @@
     margin-top: 6px;
 }
 
+.formError{
+    color: var(--ig-error-or-destructive);
+    font-size: 13px;
+    float: left;
+}
+
+.disabledBtn{
+    opacity: .7;
+    pointer-events: none;
+}
+
 .authForm{
     margin-bottom: 20px;
 }

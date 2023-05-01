@@ -2,13 +2,15 @@ import { Link } from 'react-router-dom';
 import styles from './AuthForm.module.css';
 import { useState } from 'react';
 import useFormState from '../../hooks/useFormState';
+import { login } from '../../services/authServices';
 
 const LoginForm = () => {
     const [loginData, setLoginData] = useFormState({
-        'email': '',
+        'email_or_username': '',
         'password': '',
     })
     // State holding the password type eg: text or password
+    // This 2 (passType and changePassType) can go into a hook
     const [passwordType, setPasswordType] = useState({
         type: 'password',
         button: 'Show'
@@ -26,6 +28,16 @@ const LoginForm = () => {
                     type: 'password',
                     button: "Show"
                 })
+    };
+
+    const onLogin = async (e) => {
+        e.preventDefault();
+        try{
+            const data = await login(loginData);
+            return data;
+        } catch(e){
+            alert(e);
+        }
     }
 
     return (
@@ -38,17 +50,17 @@ const LoginForm = () => {
                 </div>
 
                 <div className={styles.authForm}>
-                    <form>
+                    <form method='post' onSubmit={onLogin}>
 
-                        <div className={`${styles.formRow} ${loginData.email.length >= 1 && styles.filledInput}`}>
+                        <div className={`${styles.formRow} ${loginData.email_or_username.length >= 1 && styles.filledInput}`}>
                             <input
                                 type="text"
-                                name='email'
-                                id='email'
+                                name='email_or_username'
+                                id='email_or_username'
                                 onChange={setLoginData}
-                                value={loginData.email}
+                                value={loginData.email_or_username}
                             />
-                            <label htmlFor="email">Email or username</label>
+                            <label htmlFor="email_or_username">Email or username</label>
                         </div>
 
                         <div className={`${styles.formRow} ${loginData.password.length >= 1 && styles.filledInput}`}>
