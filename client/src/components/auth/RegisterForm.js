@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styles from "./AuthForm.module.css";
 import { register } from "../../services/authServices";
+import usePasswordVisibility from "../../hooks/usePasswordVisibility";
+import { AuthDataContext } from "../../contexts/AuthContext";
 
 const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
   const [formErrors, setFormErrors] = useState({
@@ -9,36 +11,21 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
     full_name: "",
     password: "",
   });
-  const [passwordType, setPasswordType] = useState({
-    type: "password",
-    button: "Show",
-  });
+  const { userLogin } = useContext(AuthDataContext);
 
-  // Function to show and hide the password
-  const changePassType = (e) => {
-    setPasswordType((oldPass) =>
-      oldPass.type == "password"
-        ? {
-            type: "text",
-            button: "Hide",
-          }
-        : {
-            type: "password",
-            button: "Show",
-          }
-    );
-  };
+  const [passwordType, setPasswordType] = usePasswordVisibility();
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
       const data = await register(registerData);
       changeStep("next");
+      userLogin(data);
     } catch (e) {
-        setFormErrors(oldErrors => ({
-            ...oldErrors,
-            ...e
-        }))
+      setFormErrors((oldErrors) => ({
+        ...oldErrors,
+        ...e,
+      }));
     }
   };
 
@@ -68,7 +55,9 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
               id="email"
             />
             <label htmlFor="email">Email</label>
-            {formErrors.email && (<p className={styles.formError}>{formErrors.email}</p>) }
+            {formErrors.email && (
+              <p className={styles.formError}>{formErrors.email}</p>
+            )}
           </div>
 
           <div
@@ -97,7 +86,9 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
               id="username"
             />
             <label htmlFor="username">Username</label>
-            {formErrors.username && (<p className={styles.formError}>{formErrors.username}</p>) }
+            {formErrors.username && (
+              <p className={styles.formError}>{formErrors.username}</p>
+            )}
           </div>
 
           <div
@@ -114,11 +105,13 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
             />
             <label htmlFor="password">Password</label>
             {registerData.password.length >= 1 && (
-              <span className={styles.showPassword} onClick={changePassType}>
+              <span className={styles.showPassword} onClick={setPasswordType}>
                 {passwordType.button}
               </span>
             )}
-            {formErrors.password && (<p className={styles.formError}>{formErrors.password}</p>) }
+            {formErrors.password && (
+              <p className={styles.formError}>{formErrors.password}</p>
+            )}
           </div>
 
           <div className={styles.formRow}>

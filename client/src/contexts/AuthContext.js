@@ -18,12 +18,18 @@ export const AuthProvider = ({ children }) => {
     setUserData({});
   };
 
+  const userConfirmEmail = () => {
+    const newUserData = { ...userData, is_confirmed: true };
+    setUserData(newUserData);
+  };
+
   const context = {
     userData,
     csrfToken,
-    isAuth: userData.token ? true : false ,
+    isAuth: userData.token ? true : false,
     userLogin,
     userLogout,
+    userConfirmEmail,
   };
 
   return (

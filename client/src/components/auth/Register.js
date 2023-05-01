@@ -1,23 +1,27 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import useFormState from "../../hooks/useFormState";
 import styles from "./AuthForm.module.css";
 import RegisterForm from "./RegisterForm";
 import EmailConfirmation from "./EmailConfirmation";
 import { submitRegisterConfirmationCode } from "../../services/authServices";
+import { AuthDataContext } from "../../contexts/AuthContext";
 
-const Register = () => {
+const Register = ({ step }) => {
+  const { userData, userConfirmEmail, userLogin } = useContext(AuthDataContext);
   const [registerData, setRegisterData] = useFormState({
-    email: "",
+    email: userData.email || "",
     full_name: "",
     username: "",
     password: "",
   });
-  const [confirmationCode, setConfirmatioCode] = useFormState({
-    'code': ''
+  const [confirmationCode, setConfirmationCode] = useFormState({
+    code: "",
   });
-  const [currStep, setCurrStep] = useState(1);
+  const [currStep, setCurrStep] = useState(userData.email ? 2 : 1);
+
+  const navigate = useNavigate();
 
   const changeStep = (action) => {
     if (action == "back" && currStep == 1) {
@@ -30,10 +34,16 @@ const Register = () => {
 
   const confirmEmail = async (e, code) => {
     e.preventDefault();
-    const data = await submitRegisterConfirmationCode(code, registerData.email);
-    return data;
+    try{
+      const data = await submitRegisterConfirmationCode(confirmationCode.code, registerData.email);
+      userLogin(data);
+      navigate('/');
+      userConfirmEmail();
+      return data;
+    } catch(e){
+      alert(e);
+    }
   };
-
 
   return (
     <div className={styles.sectionWrapper}>
@@ -48,8 +58,9 @@ const Register = () => {
         {currStep == 2 && (
           <EmailConfirmation
             confirmationCode={confirmationCode}
-            setConfirmatioCode={setConfirmatioCode}
+            setConfirmationCode={setConfirmationCode}
             confirmEmail={confirmEmail}
+            email={registerData.email}
           />
         )}
       </div>

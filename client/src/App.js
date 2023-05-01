@@ -14,8 +14,9 @@ function App() {
           <Route element={<AuthGuard />}>
             <Route path="/" element={<Dashboard />} />
           </Route>
+
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/register" element={<Register step={2} />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
