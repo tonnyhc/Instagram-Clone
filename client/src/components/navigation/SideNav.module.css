@@ -1,0 +1,62 @@
+@import url('../../css/variables.css');
+
+aside{
+    border-right: 1px solid var(--ig-separator);
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    font-size: 19px;
+}
+
+
+.sideNav {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    font-size: 19px;
+    padding: 17px 14px;
+}
+.logoWrapper{
+    max-width: 140px;
+}
+.logoWrapper a:hover{
+    opacity: .7;
+}
+.navigation{
+    height: 100%;
+}
+
+.navItem,
+.navItem a {
+    display: flex;
+    align-items: center;
+    color: var(--ig-primary-text);
+    border-radius: var(--semi-border-radius);
+}
+.navItem:hover{
+    background-color: var(--navigation-hover-background-color);
+}
+.navItem:hover .navIcon{
+    transform: scale(1.15);
+}
+
+.navIcon{
+    margin-right: 12px;
+    width: 24px;
+    height: 24px;
+    transition: 200ms transform ease-in-out;
+}
+.profileNavIcon{
+    border-radius: 100%;
+    overflow: hidden;
+}
+
+.navItem{
+    padding: 15px 14px;
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+.navItem img{
+    width: 100%;
+    object-fit: cover;
+}

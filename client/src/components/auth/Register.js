@@ -36,9 +36,8 @@ const Register = ({ step }) => {
     e.preventDefault();
     try{
       const data = await submitRegisterConfirmationCode(confirmationCode.code, registerData.email);
-      userLogin(data);
-      navigate('/');
       userConfirmEmail();
+      navigate('/');
       return data;
     } catch(e){
       alert(e);

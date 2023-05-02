@@ -1,7 +1,14 @@
 :root{
     --ig-link: rgb(0, 55, 107);
+    --ig-primary-text: rgb(0,0,0);
+    --semi-border-radius: 13px;
+    --font-weight-bold: 700;
+    --font-weight-semi-bold: 600;
+    --font-weight-regular: 400;
+    --navigation-hover-background-color: rgb(242, 242, 242);
     --ig-primary-button: rgb(0, 149, 246);
     --ig-secondary-button: rgb(38, 38, 38);
     --ig-secondary-text: rgb(115, 115, 115);
     --ig-error-or-destructive: rgb(237, 73, 86);
+    --ig-separator: rgb(219, 219, 219);
 }

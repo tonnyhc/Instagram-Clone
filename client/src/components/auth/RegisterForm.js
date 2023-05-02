@@ -4,6 +4,8 @@ import { register } from "../../services/authServices";
 import usePasswordVisibility from "../../hooks/usePasswordVisibility";
 import { AuthDataContext } from "../../contexts/AuthContext";
 
+
+
 const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
   const [formErrors, setFormErrors] = useState({
     email: "",
@@ -125,7 +127,7 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
           </div>
 
           <div className={styles.formRow}>
-            <button>Next</button>
+            <button name='next'>Next</button>
           </div>
         </form>
       </div>
