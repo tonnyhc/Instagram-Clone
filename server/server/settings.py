@@ -13,6 +13,18 @@ SECRET_KEY = 'django-insecure-ux-zuq*96wnmk5+g$3p%glcof92wgcxkgic6bqu)18pa+5ke3j
 DEBUG = True
 
 ALLOWED_HOSTS = []
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',
+]
+
+# CSRF_TRUSTED_ORIGINS = []
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+}
+
 
 # Application definition
 
@@ -28,13 +40,16 @@ INSTALLED_APPS = [
 
     'rest_framework',
     'rest_framework.authtoken',
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    # TODO: fix the csrf middleware for production
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -118,3 +133,11 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'accounts.AppUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'instagramcloneinfo@gmail.com'
+EMAIL_HOST_PASSWORD = 'pnfxnfamjfmaulfe'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

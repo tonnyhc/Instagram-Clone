@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, get_user_model, password_validation
-from django.contrib.auth.password_validation import validate_password
 from django.core import exceptions
+from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
 UserModel = get_user_model()
@@ -9,6 +9,7 @@ UserModel = get_user_model()
 class LoginSerializer(serializers.Serializer):
     email_or_username = serializers.CharField(required=True)
     password = serializers.CharField(required=True)
+
     class Meta:
         model = UserModel
         fields = ('__all__')
@@ -18,9 +19,9 @@ class LoginSerializer(serializers.Serializer):
         password = attrs.get('password')
 
         if "@" in email_or_username:
-            user = authenticate(email=email_or_username, password=password)
+            user = authenticate(request=self.context['request'], email=email_or_username, password=password)
         else:
-            user = authenticate(username=email_or_username, password=password)
+            user = authenticate(request=self.context['request'], username=email_or_username, password=password)
 
         if not user:
             raise serializers.ValidationError('Invalid email/username or password')
@@ -35,9 +36,20 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ('email', 'username', 'full_name', 'password')
 
     def create(self, validated_data):
-        user = super().create(validated_data)
-        user.set_password(user.password)
-        user.save()
+        user_manager = UserModel.objects
+
+        username = validated_data['username']
+        email = validated_data['email']
+        full_name = validated_data['full_name']
+        password = validated_data['password']
+
+        user = user_manager.create_user(
+            email=email,
+            username=username,
+            full_name=full_name,
+            password=password,
+        )
+
         return user
 
     def validate(self, data):
@@ -56,4 +68,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         user_representation = super().to_representation(instance)
         user_representation.pop('password')
         return user_representation
-
