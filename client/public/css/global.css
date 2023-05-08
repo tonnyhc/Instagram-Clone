@@ -7,7 +7,9 @@ body{
 
 a{
     text-decoration: none;
-    
+}
+a:visited{
+    color: unset;
 }
 
 button{

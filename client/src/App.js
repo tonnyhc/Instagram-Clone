@@ -5,21 +5,21 @@ import Register from "./components/auth/Register";
 import { AuthProvider } from "./contexts/AuthContext";
 import Dashboard from "./components/dashboard/Dashboard";
 import { AuthGuard } from "./components/common/RouteGuards";
-import SideNav from "./components/navigation/SideNav";
+import SideNav from "./components/navigation/side-nav/SideNav";
 
 function App() {
   return (
     <AuthProvider>
       <SideNav />
 
-        <Routes>
-          <Route element={<AuthGuard />}>
-            <Route path="/" element={<Dashboard />} />
-          </Route>
+      <Routes>
+        <Route element={<AuthGuard />}>
+          <Route path="/" element={<Dashboard />} />
+        </Route>
 
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<Register step={2} />} />
-        </Routes>
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<Register step={2} />} />
+      </Routes>
     </AuthProvider>
   );
 }

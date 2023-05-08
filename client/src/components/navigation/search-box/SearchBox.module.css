@@ -1,0 +1,48 @@
+@import url('../../../css/variables.css');
+
+.overlay{
+    position: absolute;
+    left: 70px;
+    height: 100vh;
+}
+
+.searchBoxContainer{
+    padding-left: 24px;
+    padding-right: 14px;
+    height: inherit;
+    min-width: 390px;
+    box-shadow: 9px 0 24px rgba(var(--always-black), .07);
+
+    border-right: 1px solid var(--ig-separator);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+}
+.heading{
+    padding-bottom: 36px;
+    padding-top: 12px;
+    font-weight: var(--font-weight-semi-bold);
+    font-size: 25px;
+}
+
+.search{
+    position: relative;
+}
+.searchIcon{
+    position: relative;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.search input{
+    background-color: var(--highlight-background);
+    border: 0;
+    border-radius: 8px;
+    color: var(--ig-primary-text);
+    font-size: 16px;
+    outline: none;
+    padding: 3px 16px;
+    width: 100%;
+    font-weight: 300;
+    min-height: 42px;
+}

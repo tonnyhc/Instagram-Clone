@@ -2,6 +2,7 @@
     --ig-link: rgb(0, 55, 107);
     --ig-primary-text: rgb(0,0,0);
     --semi-border-radius: 13px;
+    --border-radius-8: 8px;
     --font-weight-bold: 700;
     --font-weight-semi-bold: 600;
     --font-weight-regular: 400;
@@ -11,4 +12,8 @@
     --ig-secondary-text: rgb(115, 115, 115);
     --ig-error-or-destructive: rgb(237, 73, 86);
     --ig-separator: rgb(219, 219, 219);
+    --primary-background: rgb(255, 255, 255);
+
+    --always-black: 0,0,0;
+    --highlight-background: rgb(239,239,239);
 }
