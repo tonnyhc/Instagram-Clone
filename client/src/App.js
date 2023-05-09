@@ -6,6 +6,7 @@ import { AuthProvider } from "./contexts/AuthContext";
 import Dashboard from "./components/dashboard/Dashboard";
 import { AuthGuard } from "./components/common/RouteGuards";
 import SideNav from "./components/navigation/side-nav/SideNav";
+import Logout from "./components/auth/Logout";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
 
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<Register step={2} />} />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </AuthProvider>
   );

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import styles from "./SideNav.module.css";
 import SearchBox from "../search-box/SearchBox";
@@ -10,6 +10,22 @@ const SideNav = () => {
   });
   
   const [moreNavItem, setMoreNavItem] = useState(false);
+  const moreNavItemRef = useRef(null);
+  const moreTabRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (moreTabRef.current && !moreNavItemRef.current.contains(e.target) && !moreTabRef.current.contains(e.target)) {
+        setMoreNavItem(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+
+  }, [moreTabRef]);
 
   const handleNavItemClick = (type, value) => {
     if (type == "navLink") {
@@ -65,7 +81,7 @@ const SideNav = () => {
               >
                 <NavLink to="/">
                   <span className={styles.navIcon}>
-                    <i class="fa-solid fa-house"></i>
+                    <i className="fa-solid fa-house"></i>
                   </span>
                   <span className={styles.navText}>Home</span>
                 </NavLink>
@@ -80,7 +96,7 @@ const SideNav = () => {
                 }`}
               >
                 <span className={styles.navIcon}>
-                  <i class="fa-solid fa-magnifying-glass"></i>
+                  <i className="fa-solid fa-magnifying-glass"></i>
                 </span>
                 <span className={styles.navText}>Search</span>
               </li>
@@ -96,7 +112,7 @@ const SideNav = () => {
               >
                 <NavLink to="/messages">
                   <span className={styles.navIcon}>
-                    <i class="fa-regular fa-paper-plane"></i>
+                    <i className="fa-regular fa-paper-plane"></i>
                   </span>
                   <span className={styles.navText}>Messages</span>
                 </NavLink>
@@ -111,14 +127,14 @@ const SideNav = () => {
                 }`}
               >
                 <span className={styles.navIcon}>
-                  <i class="fa-regular fa-heart"></i>
+                  <i className="fa-regular fa-heart"></i>
                 </span>
                 <span className={styles.navText}>Notifications</span>
               </li>
 
               <li className={`${styles.navItem}`}>
                 <span className={styles.navIcon}>
-                  <i class="fa-regular fa-square-plus"></i>
+                  <i className="fa-regular fa-square-plus"></i>
                 </span>
                 <span className={styles.navText}>Create</span>
               </li>
@@ -154,20 +170,20 @@ const SideNav = () => {
 
         <div className={styles.lowerNav}>
           {moreNavItem &&
-            <div className={styles.moreTab}>
+            <div className={styles.moreTab} ref={moreTabRef}>
               <ul role='list'>
                 <li>
                   <NavLink to='/settings'>
-                    <span className={styles.icon}><i class="fa-solid fa-gear"></i></span>
+                    <span className={styles.icon}><i className="fa-solid fa-gear"></i></span>
                     <span>Settings</span>
-                    <span className={styles.rightChevron}><i class="fa-solid fa-chevron-right"></i></span>
+                    <span className={styles.rightChevron}><i className="fa-solid fa-chevron-right"></i></span>
                   </NavLink>
                 </li>
                 <li>
                   <NavLink to='/saved'>
-                    <span className={styles.icon}><i class="fa-regular fa-bookmark"></i></span>
+                    <span className={styles.icon}><i className="fa-regular fa-bookmark"></i></span>
                     <span>Saved</span>
-                    <span className={styles.rightChevron}><i class="fa-solid fa-chevron-right"></i></span>
+                    <span className={styles.rightChevron}><i className="fa-solid fa-chevron-right"></i></span>
                   </NavLink>
                 </li>
                 <li>
@@ -178,9 +194,9 @@ const SideNav = () => {
               </ul>
             </div>
           }
-          <div className={`${styles.navItem}`} onClick={() => setMoreNavItem(true)}>
+          <div className={`${styles.navItem}`} ref={moreNavItemRef} onClick={() => setMoreNavItem(!moreNavItem)}>
             <span className={styles.navIcon}>
-              <i class="fa-solid fa-bars"></i>
+              <i className="fa-solid fa-bars"></i>
             </span>
             <span className={styles.navText}>More</span>
           </div>

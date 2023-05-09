@@ -12,6 +12,7 @@ UserModel = get_user_model()
 
 
 class LoginView(authtoken_views.ObtainAuthToken):
+    authentication_classes = ()
     serializer_class = LoginSerializer
     """This view requires CSRF_TOKEN"""
 
@@ -76,3 +77,23 @@ class ConfirmEmail(rest_views.APIView):
         return Response({
             'message': "Email confirmed"
         }, status=status.HTTP_200_OK)
+
+
+class LogoutView(rest_views.APIView):
+    def get(self, request):
+        return self.__perform_logout(request)
+
+    def post(self, request):
+        return self.__perform_logout(request)
+
+    @staticmethod
+    def __perform_logout(request):
+        try:
+            request.user.auth_token.delete()
+            return Response({
+                'message': 'User signed out'
+            }, status=status.HTTP_200_OK)
+        except AttributeError as e:
+            return Response({
+                'message': "No signed in user, cant perform sign-out!"
+            }, status=status.HTTP_400_BAD_REQUEST)

@@ -10,6 +10,15 @@ export const login = async (body) => {
     }
 };
 
+export const logout = async (token) => {
+    try{
+        const data = await post('accounts/logout/', token);
+        return data;
+    } catch(e){
+        throw e;
+    }
+}
+
 export const register = async (body) => {
     try{
         const data = await post('accounts/register/', body);

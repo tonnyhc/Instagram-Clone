@@ -1,11 +1,16 @@
-const requester = async (url, method, body) => {
+const requester = async (url, method, body, token) => {
     const host = 'http://localhost:8000/api/';
+
+    if (!token){
+        token = JSON.parse(localStorage.getItem('userData')).token;
+    };
 
     try{
         const response = await fetch(host + url, {
             method: method,
             headers : {
                 'Content-Type': "application/json",
+                "Authorization": `Token ${token}`
                 // 'X-CSRFToken': csrf
             },
             body: JSON.stringify(body)
