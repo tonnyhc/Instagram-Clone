@@ -49,7 +49,7 @@ const SideNav = () => {
   };
 
   return (
-    <aside className={activeNavItem.popUp ? styles.smallNav : undefined}>
+    <aside data-testid='sideNavAside' className={activeNavItem.popUp ? styles.smallNav : undefined}>
       {activeNavItem.popUp && (
         <OverlayContainer containerType={activeNavItem.popUp} />
       )}

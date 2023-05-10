@@ -6,7 +6,7 @@ const SearchBox = () => {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   return (
-    <div className={styles.searchBoxContainer}>
+    <div data-testid="searchOverlay" className={styles.searchBoxContainer}>
       <div className={styles.searchBox}>
         <div className={styles.heading}>
           <p>Search</p>
@@ -21,6 +21,7 @@ const SearchBox = () => {
                 </span>
               )}
               <input
+                name='search'
                 value={search}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
