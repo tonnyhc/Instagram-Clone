@@ -17,7 +17,7 @@ export const logout = async (token) => {
     } catch(e){
         throw e;
     }
-}
+};
 
 export const register = async (body) => {
     try{
@@ -39,4 +39,4 @@ export const submitRegisterConfirmationCode = async (code, email) => {
     catch(e){
         throw e;
     };
-}
+};

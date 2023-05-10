@@ -1,0 +1,15 @@
+.overlay{
+    position: absolute;
+    left: 70px;
+    height: 100vh;
+}
+
+.overlayContainer{
+    height: 100%;
+    min-width: 390px;
+    box-shadow: 9px 0 24px rgba(var(--always-black), .07);
+    border-right: 1px solid var(--ig-separator);
+    border-top-right-radius: 16px;
+    border-bottom-right-radius: 16px;
+    padding: 12px 0;
+}

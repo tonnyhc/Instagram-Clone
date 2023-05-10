@@ -1,30 +1,37 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useContext } from "react";
 import { NavLink } from "react-router-dom";
+
+import { AuthDataContext } from "../../../contexts/AuthContext";
+import OverlayContainer from "../overlay/OverlayContainer";
+
 import styles from "./SideNav.module.css";
-import SearchBox from "../search-box/SearchBox";
 
 const SideNav = () => {
   const [activeNavItem, setActiveNavItem] = useState({
     navLink: "home",
     popUp: null,
   });
-  
   const [moreNavItem, setMoreNavItem] = useState(false);
   const moreNavItemRef = useRef(null);
   const moreTabRef = useRef(null);
 
+  const { userData } = useContext(AuthDataContext);
+
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (moreTabRef.current && !moreNavItemRef.current.contains(e.target) && !moreTabRef.current.contains(e.target)) {
+      if (
+        moreTabRef.current &&
+        !moreNavItemRef.current.contains(e.target) &&
+        !moreTabRef.current.contains(e.target)
+      ) {
         setMoreNavItem(false);
       }
     };
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
-
   }, [moreTabRef]);
 
   const handleNavItemClick = (type, value) => {
@@ -36,14 +43,16 @@ const SideNav = () => {
     } else {
       setActiveNavItem((oldItems) => ({
         ...oldItems,
-        [type]: value,
+        [type]: oldItems.popUp == value ? null : value,
       }));
     }
   };
 
   return (
     <aside className={activeNavItem.popUp ? styles.smallNav : undefined}>
-      {activeNavItem.popUp == "search" && <SearchBox />}
+      {activeNavItem.popUp && (
+        <OverlayContainer containerType={activeNavItem.popUp} />
+      )}
       <div className={styles.sideNav}>
         <div className={styles.logoWrapper}>
           <NavLink to="/" onClick={() => handleNavItemClick("navLink", "home")}>
@@ -161,7 +170,7 @@ const SideNav = () => {
                       alt="Profile picture"
                     />
                   </span>
-                  <span className={styles.navText}>Profile</span>
+                  <span className={styles.navText}>{userData.username}</span>
                 </NavLink>
               </li>
             </ul>
@@ -169,32 +178,44 @@ const SideNav = () => {
         </div>
 
         <div className={styles.lowerNav}>
-          {moreNavItem &&
+          {moreNavItem && (
             <div className={styles.moreTab} ref={moreTabRef}>
-              <ul role='list'>
+              <ul role="list">
                 <li>
-                  <NavLink to='/settings'>
-                    <span className={styles.icon}><i className="fa-solid fa-gear"></i></span>
+                  <NavLink to="/settings">
+                    <span className={styles.icon}>
+                      <i className="fa-solid fa-gear"></i>
+                    </span>
                     <span>Settings</span>
-                    <span className={styles.rightChevron}><i className="fa-solid fa-chevron-right"></i></span>
+                    <span className={styles.rightChevron}>
+                      <i className="fa-solid fa-chevron-right"></i>
+                    </span>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to='/saved'>
-                    <span className={styles.icon}><i className="fa-regular fa-bookmark"></i></span>
+                  <NavLink to="/saved">
+                    <span className={styles.icon}>
+                      <i className="fa-regular fa-bookmark"></i>
+                    </span>
                     <span>Saved</span>
-                    <span className={styles.rightChevron}><i className="fa-solid fa-chevron-right"></i></span>
+                    <span className={styles.rightChevron}>
+                      <i className="fa-solid fa-chevron-right"></i>
+                    </span>
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to='/logout'>
+                  <NavLink to="/logout">
                     <span>Logout</span>
                   </NavLink>
                 </li>
               </ul>
             </div>
-          }
-          <div className={`${styles.navItem}`} ref={moreNavItemRef} onClick={() => setMoreNavItem(!moreNavItem)}>
+          )}
+          <div
+            className={`${styles.navItem}`}
+            ref={moreNavItemRef}
+            onClick={() => setMoreNavItem(!moreNavItem)}
+          >
             <span className={styles.navIcon}>
               <i className="fa-solid fa-bars"></i>
             </span>

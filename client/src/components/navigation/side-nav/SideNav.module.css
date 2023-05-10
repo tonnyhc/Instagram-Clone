@@ -6,10 +6,7 @@ aside{
     height: 100vh;
     position: fixed;
     font-size: 19px;
-    position: relative;
-
     transition: 160ms ease-in-out;
-
 }
 
 aside.smallNav{
