@@ -5,8 +5,11 @@ import { AuthDataContext } from "../../../contexts/AuthContext";
 import OverlayContainer from "../overlay/OverlayContainer";
 
 import styles from "./SideNav.module.css";
+import useClickOutside from "../../../hooks/useClickOutside";
 
 const SideNav = () => {
+  const { userData } = useContext(AuthDataContext);
+  
   const [activeNavItem, setActiveNavItem] = useState({
     navLink: "home",
     popUp: null,
@@ -15,24 +18,19 @@ const SideNav = () => {
   const moreNavItemRef = useRef(null);
   const moreTabRef = useRef(null);
 
-  const { userData } = useContext(AuthDataContext);
+  const sideNavRef = useRef(null);
+  const overlayContainerRef = useRef(null);
+  
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (
-        moreTabRef.current &&
-        !moreNavItemRef.current.contains(e.target) &&
-        !moreTabRef.current.contains(e.target)
-      ) {
-        setMoreNavItem(false);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [moreTabRef]);
+  useClickOutside([moreNavItemRef, moreTabRef ], () => {
+    setMoreNavItem(false);
+  });
+  useClickOutside([overlayContainerRef, sideNavRef], () => {
+    setActiveNavItem(oldItems => ({
+      ...oldItems,
+      popUp: null
+    }));
+  });
 
   const handleNavItemClick = (type, value) => {
     if (type == "navLink") {
@@ -49,9 +47,9 @@ const SideNav = () => {
   };
 
   return (
-    <aside data-testid='sideNavAside' className={activeNavItem.popUp ? styles.smallNav : undefined}>
+    <aside ref={sideNavRef} data-testid='sideNavAside' className={activeNavItem.popUp ? styles.smallNav : undefined}>
       {activeNavItem.popUp && (
-        <OverlayContainer containerType={activeNavItem.popUp} />
+        <OverlayContainer innerRef={overlayContainerRef} containerType={activeNavItem.popUp} />
       )}
       <div className={styles.sideNav}>
         <div className={styles.logoWrapper}>
