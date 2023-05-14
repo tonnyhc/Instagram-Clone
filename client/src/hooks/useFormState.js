@@ -4,10 +4,11 @@ const useFormState = (defaultState) => {
     const [fields, setFields] = useState(defaultState);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
+        const { name, value, type, checked  } = e.target;
+        console.log(e.target.type)
         setFields(prevFields => ({
             ...prevFields,
-            [name]: value
+            [name]: type === 'checkbox' ? checked : value
         }));
     };
 

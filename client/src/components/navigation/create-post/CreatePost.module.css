@@ -1,0 +1,34 @@
+@import url('../../../css/variables.css');
+
+.wrapper{
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.photoUpload{
+    text-align: center;
+}
+.content{
+    flex-grow: 1;
+    text-align: center;
+    display: flex;
+    height: 100%;
+}
+.mediaIcons{
+    font-size: 75px;
+}
+.title{
+    font-size: 20px;
+}
+.submitBtn{
+    background-color: var(--ig-primary-button);
+    color: rgb(var(--always-white));
+    border-radius: 8px;
+    font-size: 16px;
+    padding: 4px 8px;
+    margin-top: 16px;
+}
+.submitBtn:hover{
+    background-color: var(--primary-button-hover);
+}

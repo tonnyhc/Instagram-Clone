@@ -1,0 +1,25 @@
+@import url('../../../css/variables.css');
+
+.sliderBox{
+    width: 44px;
+    height: 28px;
+    border: 1px solid var(--always-black);
+    border-radius: 20px;
+    background-color: #737373;
+    padding: 2px;
+    border: 1px solid rgb(var(--always-black));
+    cursor: pointer;
+}
+.sliderBox.checked{
+    background-color: var(--ig-primary-button);
+}
+.slider{
+    height: 100%;
+    width: 50%;
+    border-radius: 100%;
+    background-color: rgb(var(--always-white));
+    transition: 150ms ease-in-out;
+}
+.slider.checked{
+    float: right;
+}

@@ -6,29 +6,32 @@ import OverlayContainer from "../overlay/OverlayContainer";
 
 import styles from "./SideNav.module.css";
 import useClickOutside from "../../../hooks/useClickOutside";
+import CreatePost from "../create-post/CreatePost";
 
 const SideNav = () => {
   const { userData } = useContext(AuthDataContext);
-  
+
   const [activeNavItem, setActiveNavItem] = useState({
     navLink: "home",
     popUp: null,
   });
+
+  const [postModal, setPostModal] = useState(false);
+
   const [moreNavItem, setMoreNavItem] = useState(false);
   const moreNavItemRef = useRef(null);
   const moreTabRef = useRef(null);
 
   const sideNavRef = useRef(null);
   const overlayContainerRef = useRef(null);
-  
 
-  useClickOutside([moreNavItemRef, moreTabRef ], () => {
+  useClickOutside([moreNavItemRef, moreTabRef], () => {
     setMoreNavItem(false);
   });
   useClickOutside([overlayContainerRef, sideNavRef], () => {
-    setActiveNavItem(oldItems => ({
+    setActiveNavItem((oldItems) => ({
       ...oldItems,
-      popUp: null
+      popUp: null,
     }));
   });
 
@@ -46,11 +49,23 @@ const SideNav = () => {
     }
   };
 
+  const closeModal = (e) => {
+    setPostModal(false);
+  }
+
   return (
-    <aside ref={sideNavRef} data-testid='sideNavAside' className={activeNavItem.popUp ? styles.smallNav : undefined}>
+    <aside
+      ref={sideNavRef}
+      data-testid="sideNavAside"
+      className={activeNavItem.popUp ? styles.smallNav : undefined}
+    >
       {activeNavItem.popUp && (
-        <OverlayContainer innerRef={overlayContainerRef} containerType={activeNavItem.popUp} />
+        <OverlayContainer
+          innerRef={overlayContainerRef}
+          containerType={activeNavItem.popUp}
+        />
       )}
+      {postModal && <CreatePost closeModal={closeModal} />}
       <div className={styles.sideNav}>
         <div className={styles.logoWrapper}>
           <NavLink to="/" onClick={() => handleNavItemClick("navLink", "home")}>
@@ -139,7 +154,10 @@ const SideNav = () => {
                 <span className={styles.navText}>Notifications</span>
               </li>
 
-              <li className={`${styles.navItem}`}>
+              <li
+                className={`${styles.navItem}`}
+                onClick={(e) => setPostModal(true)}
+              >
                 <span className={styles.navIcon}>
                   <i className="fa-regular fa-square-plus"></i>
                 </span>

@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import styles from "./SearchBox.module.css";
 
 const SearchBox = () => {
