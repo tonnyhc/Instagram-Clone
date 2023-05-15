@@ -14,6 +14,7 @@
     text-align: center;
     display: flex;
     height: 100%;
+    padding-bottom: 15px;
 }
 .mediaIcons{
     font-size: 75px;

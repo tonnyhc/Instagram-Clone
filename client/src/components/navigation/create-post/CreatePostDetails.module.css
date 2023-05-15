@@ -1,6 +1,7 @@
 .postDetails {
   width: 50%;
-  overflow-y: auto;
+  overflow-y: scroll;
+  max-height: 440px;
 }
 
 .author {

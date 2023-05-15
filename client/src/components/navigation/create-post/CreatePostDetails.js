@@ -9,6 +9,7 @@ const CreatePostDetails = ({ formData, setFormData }) => {
   const turnOffCommentsRef = useRef(null);
   const onClickSlider = (ref) => {
     ref.current.click();
+
   };
 
   return (

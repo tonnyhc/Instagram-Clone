@@ -33,6 +33,7 @@ const CreatePost = ({ closeModal }) => {
     <Modal size="big" closeFunc={closeModal} title={"Create new post"}>
       <form encType="multipart/form-data" method="POST">
         <input
+          data-testid='file-input'
           onChange={handleInputFileChange}
           type="file"
           hidden

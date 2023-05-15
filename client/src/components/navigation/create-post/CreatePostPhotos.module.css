@@ -3,6 +3,12 @@
   width: 50%;
   border-right: 1px solid var(--ig-separator);
 }
+.photoWrapper{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .photoDotsCount {
   position: absolute;
