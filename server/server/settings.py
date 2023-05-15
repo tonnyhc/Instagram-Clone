@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'server.accounts',
+    'server.profiles',
 
     'rest_framework',
     'rest_framework.authtoken',
@@ -143,3 +144,7 @@ EMAIL_HOST_PASSWORD = 'pnfxnfamjfmaulfe'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
