@@ -7,6 +7,7 @@ from rest_framework.response import Response
 
 from server.accounts.serializers import LoginSerializer, RegisterSerializer
 from server.accounts.utils import send_confirmation_code
+from server.profiles.models import Profile
 
 UserModel = get_user_model()
 
@@ -33,15 +34,19 @@ class LoginView(authtoken_views.ObtainAuthToken):
 
 
 class RegisterView(rest_generic_views.CreateAPIView):
+    authentication_classes = ()
     queryset = UserModel.objects.all()
     serializer_class = RegisterSerializer
+
     # TODO: Write some tests
     def post(self, request, *args, **kwargs):
+        full_name = request.data.pop('full_name')
+
         serializer = self.serializer_class(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
 
         user = serializer.save()
-
+        profile = Profile.objects.create_profile(full_name, user)
         email = serializer.validated_data.get('email')
         password = serializer.validated_data.get('password')
 

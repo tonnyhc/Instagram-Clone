@@ -1,9 +1,5 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
-from django.core.exceptions import ValidationError
-
-from server.accounts.models import CustomUserManager
-
 
 class CustomUserManagerTestCase(TestCase):
     def setUp(self):

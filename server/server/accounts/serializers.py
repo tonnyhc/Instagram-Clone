@@ -33,20 +33,16 @@ class LoginSerializer(serializers.Serializer):
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ('email', 'username', 'full_name', 'password')
+        fields = ('email', 'username', 'password')
 
     def create(self, validated_data):
-        user_manager = UserModel.objects
-
         username = validated_data['username']
         email = validated_data['email']
-        full_name = validated_data['full_name']
         password = validated_data['password']
 
-        user = user_manager.create_user(
+        user = UserModel.objects.create_user(
             email=email,
             username=username,
-            full_name=full_name,
             password=password,
         )
 

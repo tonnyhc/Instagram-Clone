@@ -1,4 +1,3 @@
-import logging
 
 from django.contrib.auth import get_user_model
 from django.db import models, IntegrityError
@@ -44,23 +43,18 @@ class CustomUserManager(BaseUserManager):
         confirmation.delete()
         return True
 
-
 class AppUser(AbstractBaseUser, PermissionsMixin):
     MAX_LEN_USERNAME = 30
-    MAX_LEN_FULL_NAME = 150
+    # MAX_LEN_FULL_NAME = 150
 
     email = models.EmailField(unique=True)
     username = models.CharField(
         max_length=MAX_LEN_USERNAME,
         unique=True
     )
-    full_name = models.CharField(
-        max_length=MAX_LEN_FULL_NAME
-    )
-    """
-    is_active is false by default, because when the user is created, he need to enter the confirmation code
-    and after that is_active is set to True and the user can log in
-    """
+    # full_name = models.CharField(
+    #     max_length=MAX_LEN_FULL_NAME
+    # )
     is_active = models.BooleanField(default=True)
     is_confirmed = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

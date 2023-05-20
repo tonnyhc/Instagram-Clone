@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -10,12 +12,10 @@ class TestLoginView(APITestCase):
         self.url = reverse('login')
         email = 'test@test.com'
         password = 'testpass1234'
-        full_name = 'Test User'
         username = 'test'
         self.user = get_user_model().objects.create_user(
             username=username,
             email=email,
-            full_name=full_name,
             password=password
         )
 
@@ -24,7 +24,7 @@ class TestLoginView(APITestCase):
             'email_or_username': "test@test.com",
             'password': 'testpass1234'
         }
-        response = self.client.post(self.url, data)
+        response = self.client.post(self.url, json.dumps(data), content_type='application/json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertIn('user_id', response.data)
         self.assertIn('username', response.data)
