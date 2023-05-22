@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     'server.accounts',
     'server.profiles',
+    'server.followers',
 
     'rest_framework',
     'rest_framework.authtoken',

@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.forms import ImageField
 from rest_framework import generics as rest_generic_views, status
 from rest_framework.authentication import TokenAuthentication
@@ -17,8 +18,10 @@ class ProfileDetailsView(rest_generic_views.RetrieveAPIView):
     queryset = Profile.objects.all()
 
     def get(self, request, *args, **kwargs):
+        username = kwargs.get('username')
         try:
-            profile = Profile.objects.get(user=request.user)
+            user = get_user_model().objects.get(username=username)
+            profile = Profile.objects.get(user=user)
         except Profile.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -27,8 +30,11 @@ class ProfileDetailsView(rest_generic_views.RetrieveAPIView):
 
 
 class UpdateProfilePictureView(APIView):
+    allowed_methods = ['POST']
+    authentication_classes = [TokenAuthentication]
     parser_classes = [MultiPartParser, JSONParser]
 
+    # TODO: Fix the this so only the request user can change its own photo
     def post(self, request):
         image = ImageField()
         image = image.to_python(request.FILES.get('image'))
@@ -43,10 +49,14 @@ class UpdateProfilePictureView(APIView):
 
 
 class RemoveProfilePictureView(APIView):
+    allowed_methods = ['GET', 'POST']
+    authentication_classes = [TokenAuthentication]
 
+    # TODO: Fix the this so only the request user can change its own photo
     def post(self, request):
+        user = request.user
         profile_model = Profile
-        profile = request.user.profile
+        profile = user.profile
 
         profile_model.objects.remove_profile_picture(profile)
         media_url = request.build_absolute_uri(profile.profile_picture.url)
