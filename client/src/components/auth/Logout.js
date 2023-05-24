@@ -6,9 +6,9 @@ import { logout } from "../../services/authServices";
 
 const Logout = () => {
     const navigate = useNavigate();
-    const {userData, userLogout} = useContext(AuthDataContext);
+    const {authUserData, userLogout} = useContext(AuthDataContext);
 
-    logout(userData.token)
+    logout(authUserData.token)
     .then(() => {
         userLogout();
         navigate('/');

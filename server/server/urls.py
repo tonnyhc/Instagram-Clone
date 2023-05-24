@@ -8,6 +8,6 @@ urlpatterns = [
     path('api/', include([
         path('accounts/', include('server.accounts.urls')),
         path('profiles/', include('server.profiles.urls')),
-        path('followers', include('server.followers.urls')),
+        path('followers/', include('server.followers.urls')),
     ])),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

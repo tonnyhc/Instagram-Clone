@@ -1,0 +1,100 @@
+.detailsWrapper {
+  display: flex;
+  gap: 100px;
+}
+
+.profilePicture {
+  width: 150px;
+  height: 150px;
+  align-self: center;
+}
+.profilePicture img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  object-fit: cover;
+  box-shadow: 0px 0px 4px var(--ig-primary-text);
+}
+.profileDetails {
+  flex-grow: 1;
+}
+
+.usernameWrapper {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+}
+
+.row {
+  margin-bottom: 24px;
+}
+
+.followersWrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.fullName {
+  font-weight: var(--font-weight-bold);
+}
+
+.profileType {
+  color: var(--ig-secondary-text);
+}
+
+.linkBtn {
+  background-color: var(--secondary-button-background);
+  border-radius: 8px;
+  padding: 5px 15px;
+  cursor: pointer;
+}
+.linkBtn a {
+  color: var(--always-black);
+  font-weight: var(--font-weight-500);
+}
+.linkBtn:hover {
+  background-color: var(--secondary-button-hover);
+}
+
+.settingsPopUp {
+  font-size: 20px;
+}
+
+.changePicBtn {
+  width: 100%;
+  height: 100%;
+}
+
+.detailsButtons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.secondaryBtn button,
+.primaryBtn button{
+  border-radius: 8px;
+  font-weight: var(--font-weight-500);
+  padding: 4px 20px;
+}
+
+.secondaryBtn button{
+  background-color: var(--secondary-button-background);
+  color: rgb(var(--always-black));
+}
+.secondaryBtn button:hover{
+    background-color: var(--secondary-button-hover);
+}
+
+.primaryBtn button {
+  background-color: var(--ig-primary-button);
+  color: rgb(var(--always-white));
+}
+
+.primaryBtn button:hover {
+  background-color: var(--primary-button-hover);
+}
+
+.actionDots {
+  font-size: 20px;
+}

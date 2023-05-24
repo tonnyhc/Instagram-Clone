@@ -9,9 +9,9 @@ import { submitRegisterConfirmationCode } from "../../services/authServices";
 import { AuthDataContext } from "../../contexts/AuthContext";
 
 const Register = ({ step }) => {
-  const { userData, userConfirmEmail, userLogin } = useContext(AuthDataContext);
+  const { authUserData, userConfirmEmail, userLogin } = useContext(AuthDataContext);
   const [registerData, setRegisterData] = useFormState({
-    email: userData.email || "",
+    email: authUserData.email || "",
     full_name: "",
     username: "",
     password: "",
@@ -19,7 +19,7 @@ const Register = ({ step }) => {
   const [confirmationCode, setConfirmationCode] = useFormState({
     code: "",
   });
-  const [currStep, setCurrStep] = useState(userData.email ? 2 : 1);
+  const [currStep, setCurrStep] = useState(authUserData.email ? 2 : 1);
 
   const navigate = useNavigate();
 

@@ -4,7 +4,8 @@ aside{
     border-right: 1px solid var(--ig-separator);
     width: 240px;
     height: 100vh;
-    position: fixed;
+    position: relative;
+    /* position: fixed; */
     font-size: 19px;
     transition: 160ms ease-in-out;
 }
@@ -33,6 +34,8 @@ aside.smallNav .activeNavItem{
 }
 
 .sideNav {
+    position: fixed;
+
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -76,6 +79,9 @@ aside.smallNav .activeNavItem{
 .profileNavIcon{
     border-radius: 100%;
     overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .navItem{

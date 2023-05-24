@@ -1,0 +1,18 @@
+.wrapper{
+    flex-grow: 1;
+}
+.row{
+    border-bottom: 1px solid var(--ig-separator);
+    text-align: center;
+}
+.btn{
+    line-height: 40px;
+    font-weight: var(--font-weight-bold);
+}
+
+.uploadBtn{
+    color: var(--ig-primary-button);
+}
+.removeBtn{
+    color: var(--error-or-destructive);
+}

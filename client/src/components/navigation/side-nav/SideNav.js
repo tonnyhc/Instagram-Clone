@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect, useContext } from "react";
+import { useRef, useState, useContext } from "react";
 import { NavLink } from "react-router-dom";
 
 import { AuthDataContext } from "../../../contexts/AuthContext";
@@ -7,10 +7,11 @@ import OverlayContainer from "../overlay/OverlayContainer";
 import styles from "./SideNav.module.css";
 import useClickOutside from "../../../hooks/useClickOutside";
 import CreatePost from "../create-post/CreatePost";
+import { UserContext } from "../../../contexts/ProfileContext";
 
 const SideNav = () => {
-  const { userData } = useContext(AuthDataContext);
-
+  const { authUserData } = useContext(AuthDataContext);
+  const { userData } = useContext(UserContext);
   const [activeNavItem, setActiveNavItem] = useState({
     navLink: "home",
     popUp: null,
@@ -51,7 +52,7 @@ const SideNav = () => {
 
   const closeModal = (e) => {
     setPostModal(false);
-  }
+  };
 
   return (
     <aside
@@ -132,7 +133,7 @@ const SideNav = () => {
                     : undefined
                 }`}
               >
-                <NavLink to="/messages">
+                <NavLink to="/direct/inbox">
                   <span className={styles.navIcon}>
                     <i className="fa-regular fa-paper-plane"></i>
                   </span>
@@ -173,20 +174,18 @@ const SideNav = () => {
                     : undefined
                 }`}
               >
-                <NavLink to="/profile">
+                <NavLink to={`/p/${userData.username}`}>
                   <span
                     className={`${styles.navIcon} ${styles.profileNavIcon}`}
                   >
                     <img
-                      src={
-                        process.env.PUBLIC_URL +
-                        "/images/" +
-                        "base-profile-pic.jpg"
-                      }
+                      src={userData.profile_picture}
                       alt="Profile picture"
                     />
                   </span>
-                  <span className={styles.navText}>{userData.username}</span>
+                  <span className={styles.navText}>
+                    {userData.username}
+                  </span>
                 </NavLink>
               </li>
             </ul>

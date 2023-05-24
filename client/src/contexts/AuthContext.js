@@ -7,26 +7,26 @@ import useLocalStorage from "../hooks/useLocalStorage";
 export const AuthDataContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [userData, setUserData] = useLocalStorage("userData", {});
+  const [authUserData, setAuthUserData] = useLocalStorage("userData", {});
   const [csrfToken, setCsrfToken] = useState(Cookies.get("csrftoken"));
 
   const userLogin = (authData) => {
-    setUserData(authData);
+    setAuthUserData(authData);
   };
 
   const userLogout = () => {
-    setUserData({});
+    setAuthUserData({});
   };
 
   const userConfirmEmail = () => {
-    const newUserData = { ...userData, is_confirmed: true };
-    setUserData(newUserData);
+    const newUserData = { ...authUserData, is_confirmed: true };
+    setAuthUserData(newUserData);
   };
 
   const context = {
-    userData,
+    authUserData,
     csrfToken,
-    isAuth: userData.token ? true : false,
+    isAuth: authUserData.token ? true : false,
     userLogin,
     userLogout,
     userConfirmEmail,

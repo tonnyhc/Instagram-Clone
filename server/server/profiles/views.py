@@ -8,7 +8,20 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from server.profiles.models import Profile
-from server.profiles.serializer import ProfileDetailsSerializer
+from server.profiles.serializers import ProfileDetailsSerializer, MyProfileDetailsSerializer
+
+
+class MyProfileDetailsView(rest_generic_views.RetrieveAPIView):
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+    serializer_class = MyProfileDetailsSerializer
+    queryset = Profile.objects.all()
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        profile = self.serializer_class(profile, context={'request': request})
+        return Response(profile.data, status=status.HTTP_200_OK)
 
 
 class ProfileDetailsView(rest_generic_views.RetrieveAPIView):
@@ -16,16 +29,26 @@ class ProfileDetailsView(rest_generic_views.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileDetailsSerializer
     queryset = Profile.objects.all()
+    lookup_field = 'user__username'
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({
+            'request': self.request,
+            'profile': self.get_object()
+        })
+        return context
 
     def get(self, request, *args, **kwargs):
-        username = kwargs.get('username')
+        username = kwargs.get('user__username')
         try:
-            user = get_user_model().objects.get(username=username)
-            profile = Profile.objects.get(user=user)
-        except Profile.DoesNotExist:
+            profile = self.get_queryset().get(user__username=username)
+        except get_user_model().DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-        serializer = self.serializer_class(profile, context={'request': request})
+        context = self.get_serializer_context()
+
+        serializer = self.get_serializer(profile, context=context)
         return Response(serializer.data)
 
 

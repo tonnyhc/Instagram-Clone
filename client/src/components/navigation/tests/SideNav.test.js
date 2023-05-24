@@ -4,13 +4,22 @@ import "@testing-library/jest-dom";
 import SideNav from "../side-nav/SideNav";
 import { AuthDataContext } from "../../../contexts/AuthContext";
 import { MemoryRouter } from "react-router-dom";
+import { UserContext } from "../../../contexts/ProfileContext";
 
 const MockAuthProviderMemoryRouter = ({ children }) => {
-  const authData = { userData: { username: "test" } };
+  const authContext = { userData: { username: "test" } };
+  const userContext = {
+    authUserData: {
+      profile_picture: "test.jpeg",
+      username: "test",
+    },
+  };
   return (
     <MemoryRouter>
-      <AuthDataContext.Provider value={authData}>
-        {children}
+      <AuthDataContext.Provider value={authContext}>
+        <UserContext.Provider value={userContext}>
+          {children}
+        </UserContext.Provider>
       </AuthDataContext.Provider>
     </MemoryRouter>
   );
@@ -50,6 +59,16 @@ describe("SideNav", () => {
     expect(screen.getByText("More")).toBeInTheDocument();
   });
 
+  it("Sets correct username on the profile nav link", () => {
+    render(
+      <MockAuthProviderMemoryRouter>
+        <SideNav />
+      </MockAuthProviderMemoryRouter>
+    );
+
+    expect(screen.getByText("test")).toBeInTheDocument();
+  });
+
   it("When search is clicked the nav bar must become smaller and overlay to appear", () => {
     render(
       <MockAuthProviderMemoryRouter>
@@ -82,6 +101,5 @@ describe("SideNav", () => {
     expect(screen.getByText("Settings")).toBeInTheDocument();
     expect(screen.getByText("Saved")).toBeInTheDocument();
     expect(screen.getByText("Logout")).toBeInTheDocument();
-
   });
 });

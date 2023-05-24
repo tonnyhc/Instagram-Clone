@@ -12,4 +12,6 @@
     border-top-right-radius: 16px;
     border-bottom-right-radius: 16px;
     padding: 12px 0;
+
+    background-color: var(--primary-background);
 }

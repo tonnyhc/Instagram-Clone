@@ -4,6 +4,7 @@
     max-width: 350px;
     margin: 12px auto;
     padding: 10px 0;
+    flex-grow: 1;
 }
 
 .upperSection,

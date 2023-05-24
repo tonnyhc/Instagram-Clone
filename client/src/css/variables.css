@@ -6,6 +6,7 @@
     --border-radius-8: 8px;
     --font-weight-bold: 700;
     --font-weight-semi-bold: 600;
+    --font-weight-500: 500;
     --font-weight-regular: 400;
     --navigation-hover-background-color: rgb(242, 242, 242);
     --light-gray-color: rgb(142, 142, 142);
@@ -16,9 +17,12 @@
     --ig-error-or-destructive: rgb(237, 73, 86);
     --ig-separator: rgb(219, 219, 219);
     --primary-background: rgb(255, 255, 255);
+    --secondary-button-background: rgb(239, 239, 239);
+    --secondary-button-hover: rgb(219, 219, 219);
     --base-line-height: 16px;
     --always-black: 0,0,0;
     --always-white: 255, 255, 255;
     --highlight-background: rgb(239,239,239);
-    --banner-background: rgb(255, 255, 255)
+    --banner-background: rgb(255, 255, 255);
+    --error-or-destructive: rgb(237, 73, 86);
 }

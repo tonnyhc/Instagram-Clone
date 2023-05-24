@@ -1,37 +1,58 @@
-const requester = async (url, method, body, token) => {
-    const host = 'http://localhost:8000/api/';
+import config from "../utils/config";
 
-    if (!token){
-        token = JSON.parse(localStorage.getItem('userData')).token;
-    };
+const requester = async (url, method, body, contentType, token) => {
+  const host = config.apiHost + "/api/";
 
-    try{
-        const response = await fetch(host + url, {
-            method: method,
-            headers : {
-                'Content-Type': "application/json",
-                "Authorization": `Token ${token}`
-                // 'X-CSRFToken': csrf
-            },
-            body: JSON.stringify(body)
-        });
+  if (!token) {
+    const userData = JSON.parse(localStorage.getItem("userData"));
+    token = userData ? userData.token : null;
+  }
 
-        if (!response.ok){
-            const data = await response.json();
-            throw data;
-        }
+  const headers = {
+    Authorization: `Token ${token}`,
+  };
 
-        return response.json();
-    } catch(e){
-        throw e;
+  if (contentType == "formData") {
+  } else {
+    headers["Content-Type"] = "application/json";
+  }
+
+  const options = {
+    method: method,
+    headers: headers,
+    body: contentType == "formData" ? body : JSON.stringify(body),
+  };
+
+  try {
+    const response = await fetch(host + url, options);
+    if (response.status == 204){
+      return response;
     }
-}
-
-export const post = async (url, body) => {
-    try{
-        const data = await requester(url, 'POST', body);
-        return data;
-    } catch(e){
-        throw e;
+    if (!response.ok) {
+      const data = await response.json();
+      throw data;
     }
-}
+
+    return response.json();
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const post = async (url, body, contentType) => {
+  try {
+    const data = await requester(url, "POST", body, contentType);
+    return data;
+  } catch (e) {
+    throw e;
+  }
+};
+
+export const get = async (url) => {
+  try {
+    const data = await requester(url, "GET");
+    return data;
+  } catch (e) {
+    throw e;
+  }
+};

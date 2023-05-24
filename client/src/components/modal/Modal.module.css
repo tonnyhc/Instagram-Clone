@@ -26,6 +26,11 @@
 }
 .modal.big{
   min-height: 500px;
+  width: 700px;
+}
+.modal.medium{
+  max-height: 350px;
+  width: 400px;
 }
 .modalHeader {
   display: flex;
