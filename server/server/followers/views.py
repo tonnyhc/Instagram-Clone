@@ -1,4 +1,5 @@
-from rest_framework import views, status
+from rest_framework import views, status, generics as rest_generic_views
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 
 from server.followers.models import Follower
@@ -19,6 +20,10 @@ class FollowProfile(views.APIView):
         except Profile.DoesNotExist:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
+        if profile == request.user.profile:
+            print('Tried to follow the request profile')
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        print(5)
         try:
             follow_object = Follower.objects.filter(follower=request.user.profile, following=profile).get()
             follow_object.delete()
@@ -35,3 +40,48 @@ class FollowProfile(views.APIView):
                 FollowerSerializer(follower_object).data,
                 status=status.HTTP_200_OK
             )
+
+
+class GetProfileFollowers(rest_generic_views.RetrieveAPIView):
+    authentication_classes = [TokenAuthentication]
+    queryset = Follower.objects.all()
+    serializer_class = FollowerSerializer
+
+    # TODO: When have private profiles, modify this view so if the request user does not follow the profile to not return the followers
+    def get(self, request, *args, **kwargs):
+        profile_id = kwargs.get('pk')
+        if not profile_id:
+            return
+
+        try:
+            profile = Profile.objects.filter(pk=profile_id).get()
+        except Profile.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        followers = Profile.objects.get_followers(profile)
+        context = {
+            'request': request
+        }
+        return Response(self.serializer_class(followers, many=True, context=context).data, status=status.HTTP_200_OK)
+
+
+class GetProfileFollowings(rest_generic_views.RetrieveAPIView):
+    authentication_classes = [TokenAuthentication]
+    queryset = Follower.objects.all()
+    serializer_class = FollowerSerializer
+    def get(self, request, *args, **kwargs):
+        profile_id = kwargs.get('pk')
+        if not profile_id:
+            return
+
+        try:
+            profile = Profile.objects.filter(pk=profile_id).get()
+        except Profile.DoesNotExist:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        followings = Profile.objects.get_followings(profile)
+        context = {
+            'request': request
+        }
+
+        return Response(self.serializer_class(followings, many=True, context=context).data, status=status.HTTP_200_OK)

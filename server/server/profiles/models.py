@@ -35,8 +35,33 @@ class ProfileManager(models.Manager):
     def remove_profile_picture(self, profile):
         if profile.profile_picture:
             default_storage.delete(profile.profile_picture.path)
-            profile.profile_picture = get_default_profile_picture_path()
+            # profile.profile_picture = get_default_profile_picture_path()
+            profile.profile_picture = None
         profile.save()
+
+    def get_followers(self, profile):
+        from server.followers.models import Follower
+        if not profile:
+            return
+
+        followers_query = Follower.objects.filter(following=profile).all()
+        """Getting the profile of the follower, because the serializer expects a profile"""
+        followers = [follower.follower for follower in followers_query]
+        return followers
+
+    def get_followings(self, profile):
+        from server.followers.models import Follower
+
+        if not profile:
+            return
+
+        followings_query = Follower.objects.filter(follower=profile).all()
+        """Getting the profile of the follower , because the serializer expects a profile"""
+        followings = [following.following for following in followings_query]
+
+        return followings
+
+
 
 
 class Profile(models.Model):

@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.forms import ImageField
 from rest_framework import generics as rest_generic_views, status
@@ -8,13 +9,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from server.profiles.models import Profile
-from server.profiles.serializers import ProfileDetailsSerializer, MyProfileDetailsSerializer
+from server.profiles.serializers import ProfileDetailsSerializer, BaseProfileSerializer
+from server.profiles.utils import get_default_profile_picture_path
 
 
 class MyProfileDetailsView(rest_generic_views.RetrieveAPIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-    serializer_class = MyProfileDetailsSerializer
+    serializer_class = BaseProfileSerializer
     queryset = Profile.objects.all()
 
     def get(self, request, *args, **kwargs):
@@ -55,9 +57,9 @@ class ProfileDetailsView(rest_generic_views.RetrieveAPIView):
 class UpdateProfilePictureView(APIView):
     allowed_methods = ['POST']
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
     parser_classes = [MultiPartParser, JSONParser]
 
-    # TODO: Fix the this so only the request user can change its own photo
     def post(self, request):
         image = ImageField()
         image = image.to_python(request.FILES.get('image'))
@@ -74,13 +76,16 @@ class UpdateProfilePictureView(APIView):
 class RemoveProfilePictureView(APIView):
     allowed_methods = ['GET', 'POST']
     authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
-    # TODO: Fix the this so only the request user can change its own photo
     def post(self, request):
         user = request.user
         profile_model = Profile
         profile = user.profile
 
         profile_model.objects.remove_profile_picture(profile)
-        media_url = request.build_absolute_uri(profile.profile_picture.url)
-        return Response(data=media_url, status=status.HTTP_200_OK)
+
+        media_url = settings.MEDIA_URL.rstrip('/')
+        profile_picture_path = get_default_profile_picture_path()
+        absolute_url = request.build_absolute_uri(f'{media_url}/{profile_picture_path}')
+        return Response(data=absolute_url, status=status.HTTP_200_OK)

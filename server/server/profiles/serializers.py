@@ -1,10 +1,10 @@
+from django.conf import settings
 from rest_framework import serializers
-
 
 from server.profiles.models import Profile
 
 
-class MyProfileDetailsSerializer(serializers.ModelSerializer):
+class BaseProfileSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
 
     def get_username(self, obj):
@@ -17,17 +17,28 @@ class MyProfileDetailsSerializer(serializers.ModelSerializer):
 
 class ProfileDetailsSerializer(serializers.ModelSerializer):
     username = serializers.SerializerMethodField()
-    followers = serializers.SerializerMethodField()
-    followings = serializers.SerializerMethodField()
+    followings_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
     friendship_status = serializers.SerializerMethodField()
+    profile_picture = serializers.SerializerMethodField()
+    is_profile_owner = serializers.SerializerMethodField()
 
     def get_username(self, obj):
         return obj.user.username
 
+    def get_profile_picture(self, obj):
+        media_url = settings.MEDIA_URL.rstrip('/')
+        profile_picture_path = obj.profile_picture
+        request = self.context.get('request')
+        if not profile_picture_path:
+            return
+        if not request:
+            return
+        return request.build_absolute_uri(f'{media_url}/{profile_picture_path}')
+
     def get_friendship_status(self, obj):
         request = self.context.get('request')
         if not request:
-            print('return friendship')
             return
         follower_profile = Profile.objects.get(user=request.user)
         following_profile = self.context.get('profile')
@@ -38,31 +49,33 @@ class ProfileDetailsSerializer(serializers.ModelSerializer):
 
         }
 
-    def get_followers(self, obj):
-        from server.followers.serializers import FollowerSerializer
+    def get_followers_count(self, obj):
         profile = self.context.get('profile')
         if not profile:
-            print('return followers')
             return
-        followers = profile.followers.all()
-        serialized_followers = FollowerSerializer(followers, many=True).data
-        return serialized_followers
 
-    def get_followings(self, obj):
-        from server.followers.serializers import FollowingSerializer
+        followers_count = profile.followers.count()
+        return followers_count
+
+    def get_followings_count(self, obj):
         from server.followers.models import Follower
         profile = self.context.get('profile')
         if not profile:
-            print('return followings')
             return
 
-        followings = Follower.objects.filter(follower=profile).all()
-        print('followings')
-        serialized_followings = FollowingSerializer(followings, many=True).data
-        return serialized_followings
+        followings_count = Follower.objects.filter(follower=profile).count()
+        return followings_count
+
+    def get_is_profile_owner(self, obj):
+        request = self.context.get('request')
+        profile = obj
+        if not request:
+            return
+        return profile == request.user.profile
 
 
     class Meta:
         model = Profile
         fields = (
-            'profile_picture', 'full_name', 'bio', 'username', 'followers', 'followings', 'id', 'friendship_status')
+            'profile_picture', 'full_name', 'bio', 'username', 'followers_count', 'followings_count', 'id',
+            'friendship_status', 'is_profile_owner', )

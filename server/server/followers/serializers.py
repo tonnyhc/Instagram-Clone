@@ -1,29 +1,26 @@
 from rest_framework import serializers
 
 from server.followers.models import Follower
+from server.profiles.serializers import BaseProfileSerializer
 
 
-class FollowingSerializer(serializers.ModelSerializer):
-    following = serializers.SerializerMethodField()
+class FollowerSerializer(BaseProfileSerializer):
+    is_followed_by_viewer = serializers.SerializerMethodField()
 
-    def get_following(self, obj):
-        from server.profiles.serializers import ProfileDetailsSerializer
-        serializer = ProfileDetailsSerializer(obj.following)
-        return serializer.data
+    def get_profile(self, obj):
+        return obj.follower
 
-    class Meta:
-        model = Follower
-        fields = ('following',)
+    def get_is_followed_by_viewer(self, obj):
+        request = self.context.get('request')
+        if not request:
+            return
 
+        request_profile = request.user.profile
+        follower_profile = obj
 
-class FollowerSerializer(serializers.ModelSerializer):
-    follower = serializers.SerializerMethodField()
+        is_followed = Follower.objects.filter(following=follower_profile, follower=request_profile).exists()
 
-    def get_follower(self, obj):
-        from server.profiles.serializers import ProfileDetailsSerializer
-        serializer = ProfileDetailsSerializer(obj.follower)
-        return serializer.data
-
-    class Meta:
-        model = Follower
-        fields = ('follower',)
+        return is_followed
+    profile_id = serializers.IntegerField(source='id')
+    class Meta(BaseProfileSerializer.Meta):
+        fields = ('profile_picture', 'username', 'full_name', 'profile_id', 'is_followed_by_viewer')
