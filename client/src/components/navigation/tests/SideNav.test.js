@@ -7,9 +7,9 @@ import { MemoryRouter } from "react-router-dom";
 import { UserContext } from "../../../contexts/ProfileContext";
 
 const MockAuthProviderMemoryRouter = ({ children }) => {
-  const authContext = { userData: { username: "test" } };
+  // const authContext = { authUserData: { username: "test" } };
   const userContext = {
-    authUserData: {
+    userData: {
       profile_picture: "test.jpeg",
       username: "test",
     },

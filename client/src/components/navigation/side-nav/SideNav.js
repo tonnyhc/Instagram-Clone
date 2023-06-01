@@ -9,6 +9,8 @@ import useClickOutside from "../../../hooks/useClickOutside";
 import CreatePost from "../create-post/CreatePost";
 import { UserContext } from "../../../contexts/ProfileContext";
 
+import {igLogoBig, baseProfilePicturePath} from "../../../utils/config";
+
 const SideNav = () => {
   const { authUserData } = useContext(AuthDataContext);
   const { userData } = useContext(UserContext);
@@ -83,7 +85,7 @@ const SideNav = () => {
                 />
               ) : (
                 <img
-                  src={process.env.PUBLIC_URL + "/images/" + "IG-LOGO-BIG.png"}
+                  src={igLogoBig}
                   alt="Logo"
                 />
               )}
@@ -109,7 +111,7 @@ const SideNav = () => {
                   <span className={styles.navText}>Home</span>
                 </NavLink>
               </li>
-
+                  
               <li
                 onClick={() => handleNavItemClick("popUp", "search")}
                 className={`${styles.navItem} ${
@@ -179,7 +181,7 @@ const SideNav = () => {
                     className={`${styles.navIcon} ${styles.profileNavIcon}`}
                   >
                     <img
-                      src={userData.profile_picture}
+                      src={userData.profile_picture ? userData.profile_picture : baseProfilePicturePath}
                       alt="Profile picture"
                     />
                   </span>

@@ -5,7 +5,7 @@ import Register from "../Register";
 import { MemoryRouter } from "react-router-dom";
 
 describe('Register component', () => {
-    const userData = {email: ""};
+    const authUserData = {email: ""};
     const userConfirmEmail = jest.fn();
     const userLogin = jest.fn();
 
@@ -15,7 +15,7 @@ describe('Register component', () => {
 
     it('renders the register form when step is 1', () => {
         render(
-            <AuthDataContext.Provider value={{ userData, userConfirmEmail, userLogin }}>
+            <AuthDataContext.Provider value={{ authUserData, userConfirmEmail, userLogin }}>
                 <MemoryRouter>
                     <Register step={1} />
                 </MemoryRouter>
@@ -29,11 +29,11 @@ describe('Register component', () => {
     });
 
     it('renders the confirmation code when step is 2', () => {
-        const userData = {
+        const authUserData = {
             email: "test@test.com"
         };
         render(
-            <AuthDataContext.Provider value={{userData, userConfirmEmail, userLogin}}>
+            <AuthDataContext.Provider value={{authUserData, userConfirmEmail, userLogin}}>
                 <MemoryRouter>
                     <Register  />
                 </MemoryRouter>

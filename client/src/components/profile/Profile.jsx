@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styles from "./Profile.module.css";
 import ProfileDetails from "./ProfileDetails";
 import { fetchProfileDetails } from "../../services/profileServices";
-import profileReducer from "./profileReducer";
+import profileReducer from "../../reducers/profileReducer";
 
 const Profile = () => {
   const { username } = useParams();

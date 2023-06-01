@@ -1,7 +1,7 @@
-import config from "../utils/config";
+import {apiHost} from "../utils/config";
 
 const requester = async (url, method, body, contentType, token) => {
-  const host = config.apiHost + "/api/";
+  const host = apiHost + "/api/";
 
   if (!token) {
     const userData = JSON.parse(localStorage.getItem("userData"));

@@ -43,6 +43,24 @@ export const removeProfilePicture = async () => {
     }
 };
 
+export const getProfileFollowers = async (profileId) => {
+    try{
+        const data = await get(followUrl + 'get-followers/' + profileId);
+        return data;
+    } catch(e){
+        throw e;
+    }
+};
+
+export const getProfileFollowings = async (profileId) => {
+    try{
+        const data = await get(followUrl + 'get-followings/'+ profileId);
+        return data;
+    } catch(e){
+        throw e;
+    }
+}
+
 export const followProfile = async (profileId) => {
     try{
         const data = await post(followUrl + 'follow/' + profileId + '/');
@@ -50,4 +68,4 @@ export const followProfile = async (profileId) => {
     } catch(e){
         throw e;
     }
-}
+};

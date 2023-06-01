@@ -1,0 +1,55 @@
+.wrapper{
+    width: 100%;
+}
+
+.card{
+    display: flex;
+    align-items: center;
+    padding: 6px 12px;
+}
+.profile{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-grow: 1;
+}
+.profilePicture{
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    overflow: hidden;
+
+}
+.profilePicture img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profileDetails{
+    flex-grow: 1;
+}
+.fullName{
+    color: var(--ig-secondary-text);
+    font-size: 14px;
+}
+
+.btnPrimary{
+    background-color: var(--ig-primary-button);
+    color: rgb(var(--always-white));
+    padding: 6px 26px;
+    border-radius: 8px;
+}
+.btnPrimary:hover{
+    background-color: var(--primary-button-hover);
+}
+
+.btnSecondary{
+    background-color: var(--secondary-button-background);
+    color: rgb(var(--always-black));
+    border-radius: 8px;
+    padding: 6px 26px;
+}
+.btnSecondary:hover{
+      background-color: var(--secondary-button-hover);
+}

@@ -98,3 +98,6 @@
 .actionDots {
   font-size: 20px;
 }
+.disabledBtn{
+  pointer-events: none;
+}

@@ -9,14 +9,20 @@ import {
 } from "../../services/profileServices";
 import { AuthDataContext } from "../../contexts/AuthContext";
 import { UserContext } from "../../contexts/ProfileContext";
+import FollowersModal from "./followers-modal/FollowersModal";
+import { baseProfilePicturePath } from "../../utils/config";
 
 const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
+  const [followersModal, setFollowersModal] = useState({
+    title: "",
+    state: false,
+  });
   const [newProfilePicture, setNewProfilePicture] = useState(null);
   const [changePictureModal, setChangePictureModal] = useState(false);
   const pictureInputRef = useRef(null);
   const { userData, setUserData } = useContext(UserContext);
   const { authUserData } = useContext(AuthDataContext);
-  const isProfileOwner = profileData.username == authUserData.username;
+  const isProfileOwner = profileData.is_profile_owner;
 
   const closeModal = () => {
     setChangePictureModal(false);
@@ -35,7 +41,7 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
         }));
         setProfile({
           type: "CHANGE_PROFILE_PICTURE",
-          payload: data
+          payload: data,
         });
         closeModal();
       } catch (e) {
@@ -53,9 +59,9 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
       type: "FOLLOW-UNFOLLOW_USER",
       payload: {
         id: userData.profile_id,
-        data: data.type == 'cors' ? null : data
-      }
-    })
+        data: data.type == "cors" ? null : data,
+      },
+    });
   };
 
   return (
@@ -72,13 +78,23 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
         <form method="POST" role="presentation" encType="multipart/form-data">
           <input
             onChange={(e) => setNewProfilePicture(e.target.files[0])}
-            value={''}
+            value={""}
             accept="image/jpeg,image/png"
             type="file"
             hidden
             ref={pictureInputRef}
           />
         </form>
+      )}
+
+      {followersModal.state && (
+        <FollowersModal
+          onFollow={onFollow}
+          title={followersModal.title}
+          size="small"
+          profileId = {profileData.id}
+          closeFunc={() => setFollowersModal((followersModal.state = false))}
+        ></FollowersModal>
       )}
 
       <div className={styles.detailsWrapper}>
@@ -101,10 +117,7 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
                 onClick={(e) => pictureInputRef.current.click()}
                 title="Add a profile photo"
               >
-                <img
-                  src={process.env.PUBLIC_URL + "/images/base-profile-pic.png"}
-                  alt="Add profile picture"
-                />
+                <img src={baseProfilePicturePath} alt="Add profile picture" />
               </button>
             )}
           </div>
@@ -154,10 +167,10 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
                   </form>
                 </div>
                 {friendship_status.followed_by_viewer && (
-                  <div
-                    className={`${styles.messageBtn} ${styles.linkBtn}`}
-                  >
-                      <NavLink className={styles.button} to={`/direct/t/123`}>Message</NavLink>
+                  <div className={`${styles.messageBtn} ${styles.linkBtn}`}>
+                    <NavLink className={styles.button} to={`/direct/t/123`}>
+                      Message
+                    </NavLink>
                   </div>
                 )}
 
@@ -172,11 +185,33 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
               <b>2</b> posts
             </p>
             <p>
-              <b>{profileData.followers.length}</b> followers
+              <button
+                className={
+                  profileData.followers_count == 0
+                    ? styles.disabledBtn
+                    : undefined
+                }
+                onClick={() =>
+                  setFollowersModal({ title: "Followers", state: true })
+                }
+              >
+                <b>{profileData.followers_count}</b> followers
+              </button>
             </p>
-            <p>
-              <b>{profileData.followings.length}</b> following
-            </p>
+            <button
+              className={
+                profileData.followings_count == 0
+                  ? styles.disabledBtn
+                  : undefined
+              }
+              onClick={() =>
+                setFollowersModal({ title: "Followings", state: true })
+              }
+            >
+              <span>
+                <b>{profileData.followings_count}</b> following
+              </span>
+            </button>
           </div>
           <div className={`${styles.row} ${styles.bioWrapper}`}>
             <p className={styles.fullName}>{profileData.full_name}</p>

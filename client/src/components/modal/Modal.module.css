@@ -29,9 +29,11 @@
   width: 700px;
 }
 .modal.medium{
-  max-height: 350px;
+  max-height: 400px;
   width: 400px;
+  overflow-y: auto;
 }
+
 .modalHeader {
   display: flex;
   align-items: center;
