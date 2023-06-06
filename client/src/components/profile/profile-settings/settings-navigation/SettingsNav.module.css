@@ -1,0 +1,27 @@
+.nav{
+    border-right: 1px solid var(--ig-separator);
+    margin: 0;
+}
+
+
+.navLink a:hover{
+    background-color: var(--secondary-background);
+    border-left-color: var(--ig-separator);
+}
+
+.navLink a{
+    color: var(--ig-primary-text);
+    display: inline-block;
+    border-left: 2px solid transparent;
+    width: 100%;
+    font-size: 15px;
+}
+
+a.active{
+    font-weight: bold;
+    border-left-color: var(--always-black) !important;
+}
+
+.navLinkText{
+    padding: 16px 28px;
+}

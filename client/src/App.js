@@ -9,6 +9,9 @@ import Logout from "./components/auth/Logout";
 import Profile from "./components/profile/Profile";
 import { useContext } from "react";
 import { UserProvider } from "./contexts/ProfileContext";
+import ProfileSettings from "./components/profile/profile-settings/ProfileSettings";
+
+import styles from './App.module.css';
 
 function App() {
   const { isAuth, authUserData } = useContext(AuthDataContext);
@@ -17,16 +20,19 @@ function App() {
       {isAuth && (
         <UserProvider>
           <SideNav />
-          <Routes>
-            <Route path="/logout" element={<Logout />} />
-            <Route element={<AuthGuard />}>
-              <Route path="/" element={<h1>Hello</h1>} />
-            </Route>
-            {!authUserData.is_confirmed && (
-              <Route path="/register" element={<Register />} />
-            )}
-            <Route path="/p/:username" element={<Profile />} />
-          </Routes>
+          <main className={styles.mainPart}>
+            <Routes>
+              <Route path="/logout" element={<Logout />} />
+              <Route element={<AuthGuard />}>
+                <Route path="/" element={<h1>Hello</h1>} />
+                <Route path="/accounts/*" element={<ProfileSettings />} />
+              </Route>
+              {!authUserData.is_confirmed && (
+                <Route path="/register" element={<Register />} />
+              )}
+              <Route path="/p/:username" element={<Profile />} />
+            </Routes>
+          </main>
         </UserProvider>
       )}
 

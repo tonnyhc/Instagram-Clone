@@ -15,26 +15,11 @@ class BaseProfileSerializer(serializers.ModelSerializer):
         fields = ('profile_picture', 'full_name', 'username', 'id')
 
 
-class ProfileDetailsSerializer(serializers.ModelSerializer):
-    username = serializers.SerializerMethodField()
+class ProfileDetailsSerializer(BaseProfileSerializer):
     followings_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
     friendship_status = serializers.SerializerMethodField()
-    profile_picture = serializers.SerializerMethodField()
     is_profile_owner = serializers.SerializerMethodField()
-
-    def get_username(self, obj):
-        return obj.user.username
-
-    def get_profile_picture(self, obj):
-        media_url = settings.MEDIA_URL.rstrip('/')
-        profile_picture_path = obj.profile_picture
-        request = self.context.get('request')
-        if not profile_picture_path:
-            return
-        if not request:
-            return
-        return request.build_absolute_uri(f'{media_url}/{profile_picture_path}')
 
     def get_friendship_status(self, obj):
         request = self.context.get('request')

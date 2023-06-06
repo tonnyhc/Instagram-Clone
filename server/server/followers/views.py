@@ -23,7 +23,7 @@ class FollowProfile(views.APIView):
         if profile == request.user.profile:
             print('Tried to follow the request profile')
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        print(5)
+
         try:
             follow_object = Follower.objects.filter(follower=request.user.profile, following=profile).get()
             follow_object.delete()
@@ -36,8 +36,9 @@ class FollowProfile(views.APIView):
             )
 
             follower_object.save()
+            follower_profile = follower_object.follower
             return Response(
-                FollowerSerializer(follower_object).data,
+                FollowerSerializer(follower_profile).data,
                 status=status.HTTP_200_OK
             )
 

@@ -1,0 +1,89 @@
+.wrapper{
+    width: 100%;
+    max-width: 935px;
+    background-color: var(--ig-primary-background);
+    border: 1px solid var(--ig-separator);
+    margin: 60px auto 0;
+    border-radius: 3px;
+
+    display: flex;
+}
+
+.settingsContentWrapper{
+    padding: 10px 60px;
+}
+
+.settingsArticle{
+    flex-grow: 1;
+}
+
+.mainPart{
+    padding: 32px 45px;
+}
+
+
+
+.title{
+    font-weight: 500;
+}
+
+
+.changePictureBtn{
+    font-weight: var(--font-weight-semi-bold);
+    color: var(--ig-primary-button);
+}
+.changePictureBtn:hover{
+    color: var(--ig-link);
+}
+
+.profileImgWrapper{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.formRow{
+    margin-bottom: 30px;
+}
+
+.inputWrapper{
+    display: flex;
+    gap: 22px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.input{
+    border: 1px solid var(--ig-separator);
+    background-color: transparent;
+    border-radius: 3px;
+    color: var(--ig-primary-text);
+    font-size: 16px;
+    padding: 6px 10px;
+    flex-basis: 355px;
+}
+
+.label{
+    flex-grow: 1;
+    align-self: baseline;
+    font-weight: var(--font-weight-semi-bold);
+}
+.helperText{
+    display: flex;
+}
+
+.helperTextSeparator{
+    flex-grow: 1;
+}
+
+.helperTextLabel{
+    flex-basis: 355px;
+    color: var(--ig-secondary-text);
+    font-size: 14px;
+}
+
+.helperTextLabelError{
+    color: var(--ig-error-or-destructive);
+    font-weight: var(--font-weight-semi-bold);
+}

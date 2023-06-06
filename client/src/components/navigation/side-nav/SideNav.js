@@ -199,7 +199,7 @@ const SideNav = () => {
             <div className={styles.moreTab} ref={moreTabRef}>
               <ul role="list">
                 <li>
-                  <NavLink to="/settings">
+                  <NavLink to="/accounts/edit/">
                     <span className={styles.icon}>
                       <i className="fa-solid fa-gear"></i>
                     </span>

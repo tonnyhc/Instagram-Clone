@@ -1,0 +1,4 @@
+.mainPart{
+    margin-left: auto;
+    width: calc(100% - 240px);
+}
