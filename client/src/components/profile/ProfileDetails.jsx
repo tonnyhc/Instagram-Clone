@@ -11,6 +11,7 @@ import { AuthDataContext } from "../../contexts/AuthContext";
 import { UserContext } from "../../contexts/ProfileContext";
 import FollowersModal from "./followers-modal/FollowersModal";
 import { baseProfilePicturePath } from "../../utils/config";
+import ProfilePicture from "../common/profile-picture/ProfilePicture";
 
 const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
   const [followersModal, setFollowersModal] = useState({
@@ -106,10 +107,11 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
                 className={styles.changePicBtn}
                 title="Change profile picture"
               >
-                <img
+                {/* <img
                   src={`${profileData.profile_picture}`}
                   alt="User profile picture"
-                />
+                /> */}
+                <ProfilePicture width='150px' height='150px' src={profileData.profile_picture} alt="User profile picture"/>
               </button>
             ) : (
               <button
@@ -117,7 +119,8 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
                 onClick={(e) => pictureInputRef.current.click()}
                 title="Add a profile photo"
               >
-                <img src={baseProfilePicturePath} alt="Add profile picture" />
+                {/* <img src={baseProfilePicturePath} alt="Add profile picture" /> */}
+                <ProfilePicture width="150px" height="150px" src={baseProfilePicturePath} alt="Add profile picture"/>
               </button>
             )}
           </div>
@@ -225,3 +228,5 @@ const ProfileDetails = ({ profileData, friendship_status, setProfile }) => {
 };
 
 export default ProfileDetails;
+
+

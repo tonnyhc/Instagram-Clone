@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const useFormState = (defaultState) => {
     const [fields, setFields] = useState(defaultState);
 
+    useEffect(() => {
+        setFields(defaultState);
+      }, [defaultState]);
+
     const handleChange = (e) => {
         const { name, value, type, checked  } = e.target;
-        console.log(e.target.type)
         setFields(prevFields => ({
             ...prevFields,
             [name]: type === 'checkbox' ? checked : value

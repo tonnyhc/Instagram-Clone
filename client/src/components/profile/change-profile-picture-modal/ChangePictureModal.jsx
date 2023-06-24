@@ -40,3 +40,4 @@ const ChangePictureModal = ({ closeFunc, openFileInput, setProfile }) => {
 };
 
 export default ChangePictureModal;
+

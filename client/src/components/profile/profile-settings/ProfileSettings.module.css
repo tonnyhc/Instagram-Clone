@@ -5,12 +5,12 @@
     border: 1px solid var(--ig-separator);
     margin: 60px auto 0;
     border-radius: 3px;
-
+    min-height: 500px;
     display: flex;
 }
 
 .settingsContentWrapper{
-    padding: 10px 60px;
+    padding: 10px;
 }
 
 .settingsArticle{
@@ -25,8 +25,12 @@
 
 .title{
     font-weight: 500;
+    margin-bottom: 30px;
 }
 
+.usernameWrapper{
+    flex-basis: 355px;
+}
 
 .changePictureBtn{
     font-weight: var(--font-weight-semi-bold);
@@ -36,11 +40,9 @@
     color: var(--ig-link);
 }
 
-.profileImgWrapper{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    overflow: hidden;
+.profilePictureWrapper{
+    display: flex;
+    justify-content: flex-end;
 }
 
 .formRow{
@@ -85,5 +87,31 @@
 
 .helperTextLabelError{
     color: var(--ig-error-or-destructive);
+    font-weight: var(--font-weight-semi-bold);
+}
+
+.settingsRowWrapper{
+    border-bottom: 1px solid var(--ig-separator);
+    padding: 24px 0;
+}
+
+.rowTitle{
+    margin-bottom: 14px;
+    font-size: 18px;
+}
+
+.innerRow{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.rowHelperText{
+    font-size: 12px;
+    color: var(--ig-secondary-text);
+}
+
+.link{
+    color: var(--ig-primary-button);
     font-weight: var(--font-weight-semi-bold);
 }

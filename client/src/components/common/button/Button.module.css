@@ -1,0 +1,10 @@
+.primary{
+    background-color: var(--ig-primary-button);
+    font-weight: var(--font-weight-semi-bold);
+    color: rgb(var(--always-white));
+    border-radius: 8px;
+    padding: 4px 20px;
+}
+.primary:hover{
+    background-color: var(--primary-button-hover);
+}

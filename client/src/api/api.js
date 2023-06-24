@@ -56,3 +56,13 @@ export const get = async (url) => {
     throw e;
   }
 };
+
+
+export const patch = async (url, body, contentType) => {
+  try{
+    const data = await requester(url, "PATCH", body, contentType)
+    return data;
+  } catch(e){
+    throw e;
+  }
+};

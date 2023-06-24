@@ -1,6 +1,7 @@
 .nav{
     border-right: 1px solid var(--ig-separator);
     margin: 0;
+    min-width: 240px;
 }
 
 

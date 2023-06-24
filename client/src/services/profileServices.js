@@ -1,7 +1,8 @@
-import { get, post } from "../api/api";
+import { get, patch, post } from "../api/api";
 
 const url = 'profiles/'
 const followUrl = 'followers/'
+const settingsUrl = 'profiles/settings/'
 
 export const fetchLogedInProfile = async () => {
     try{
@@ -21,6 +22,24 @@ export const fetchProfileDetails = async (username) => {
         throw e;
     }
 };
+
+export const fetchProfileDetailsForEdit = async () => {
+    try{
+        const data = await get(settingsUrl + 'edit/');
+        return data;
+    } catch(e){
+        throw e;
+    }
+};
+
+export const updateProfileDetails = async (body) => {
+    try{
+        const data = await patch(settingsUrl + "edit/", body);
+        return data;
+    } catch(e) {
+        throw e;
+    }
+}
 
 
 export const updateProfilePicture = async (image) => {
