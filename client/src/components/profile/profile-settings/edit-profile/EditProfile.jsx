@@ -1,10 +1,14 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useFormState from "../../../../hooks/useFormState";
 import { baseProfilePicturePath } from "../../../../utils/config";
 import Button from "../../../common/button/Button";
 import styles from "../ProfileSettings.module.css";
-import { fetchProfileDetailsForEdit, updateProfileDetails } from "../../../../services/profileServices";
+import {
+  fetchProfileDetailsForEdit,
+  updateProfileDetails,
+} from "../../../../services/profileServices";
 import ProfilePicture from "../../../common/profile-picture/ProfilePicture";
+import ChangePictureModal from "../../change-profile-picture-modal/ChangePictureModal";
 
 const EditProfile = () => {
   const [fetchedData, setFetchedData] = useState({
@@ -15,6 +19,7 @@ const EditProfile = () => {
   });
 
   const [formData, setFormData] = useFormState(fetchedData);
+  const [newProfilePicture, setNewProfilePicture] = useState(null);
 
   useEffect(() => {
     (async () => {
@@ -27,15 +32,16 @@ const EditProfile = () => {
   const onSubmitEdit = async (e) => {
     e.preventDefault();
 
-    try{
+    try {
       const data = await updateProfileDetails(formData);
       console.log(data);
       return data;
-    } catch(e){
+    } catch (e) {
       alert(e);
     }
-  }
+  };
 
+  const pictureInputRef = useRef(null);
   const bioLength = (formData.bio || "").length;
 
   return (
@@ -47,12 +53,21 @@ const EditProfile = () => {
             <div className={styles.inputWrapper}>
               <div className={styles.label}>
                 <div className={styles.profilePictureWrapper}>
-                  <ProfilePicture
-                    src={formData.profile_picture || baseProfilePicturePath}
-                    width="50px"
-                    height="50px"
-                    altText="Profile picture"
+                  <ChangePictureModal
+                    pictureInputRef={pictureInputRef}
+                    pictureSrc={formData.profile_picture}
+                    pictureHeigth="50px"
+                    pictureWidth="50px"
+                    newProfilePicture={newProfilePicture}
                   />
+                  <form action="">
+                    <input
+                      type="file"
+                      onChange={(e) => setNewProfilePicture(e.target.files[0])}
+                      hidden
+                      ref={pictureInputRef}
+                    />
+                  </form>
                 </div>
               </div>
               <div className={styles.usernameWrapper}>
@@ -135,4 +150,3 @@ const EditProfile = () => {
 };
 
 export default EditProfile;
-

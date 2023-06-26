@@ -16,3 +16,7 @@
 .removeBtn{
     color: var(--error-or-destructive);
 }
+
+.profilePicture{
+    align-self: center;
+}
