@@ -31,3 +31,16 @@ class Post(models.Model):
     created_at = models.DateTimeField(
         auto_now_add=True
     )
+
+
+class PostMedia(models.Model):
+    media = models.FileField(upload_to='media/posts')
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    creator = models.ForeignKey(
+        Profile,
+        on_delete=models.CASCADE
+    )
