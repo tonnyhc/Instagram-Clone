@@ -3,7 +3,7 @@ from django.core.files.storage import default_storage
 
 from django.db import models
 
-from server.profiles.utils import get_default_profile_picture_path
+from server.profiles.utils import get_default_profile_picture_path, GenderChoices
 
 UserModel = get_user_model()
 
@@ -61,6 +61,14 @@ class ProfileManager(models.Manager):
 
         return followings
 
+    def get_details_for_edit_view(self, profile):
+        if not profile:
+            return
+
+        return [profile.bio, profile.profile_picture, profile.gender]
+
+
+
 
 
 
@@ -79,9 +87,16 @@ class Profile(models.Model):
         null=True,
         blank=True
     )
+    gender = models.CharField(
+        choices=GenderChoices.choices(),
+        max_length=GenderChoices.max_len(),
+        default=GenderChoices.default()
+    )
     user = models.OneToOneField(
         UserModel,
         on_delete=models.RESTRICT
     )
+
+
 
     objects = ProfileManager()

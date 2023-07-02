@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from server.profiles.models import Profile
-from server.profiles.serializers import ProfileDetailsSerializer, BaseProfileSerializer
+from server.profiles.serializers import ProfileDetailsSerializer, BaseProfileSerializer, ProfileEditSerializer
 from server.profiles.utils import get_default_profile_picture_path
 
 
@@ -22,8 +22,20 @@ class MyProfileDetailsView(rest_generic_views.RetrieveAPIView):
     def get(self, request, *args, **kwargs):
         user = request.user
         profile = Profile.objects.get(user=user)
-        profile = self.serializer_class(profile, context={'request': request})
-        return Response(profile.data, status=status.HTTP_200_OK)
+        serialized_profile = self.serializer_class(profile, context={'request': request})
+        return Response(serialized_profile.data, status=status.HTTP_200_OK)
+
+class MyProfileEditDetailsView(MyProfileDetailsView):
+    serializer_class = ProfileEditSerializer
+
+    def patch(self, request, *args, **kwargs):
+        user = request.user
+        profile = Profile.objects.get(user=user)
+        serialized_profile = self.serializer_class(profile, data=request.data)
+        serialized_profile.is_valid(raise_exception=True)
+        serialized_profile.save()
+        return Response(serialized_profile.data, status=status.HTTP_200_OK)
+
 
 
 class ProfileDetailsView(rest_generic_views.RetrieveAPIView):
@@ -89,3 +101,12 @@ class RemoveProfilePictureView(APIView):
         profile_picture_path = get_default_profile_picture_path()
         absolute_url = request.build_absolute_uri(f'{media_url}/{profile_picture_path}')
         return Response(data=absolute_url, status=status.HTTP_200_OK)
+
+
+class ProfileEditView(APIView):
+    allowed_methods = ['GET', ]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        pass
