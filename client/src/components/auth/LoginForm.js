@@ -1,27 +1,28 @@
-import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import { AuthDataContext } from "../../contexts/AuthContext";
+import { useDispatch } from "react-redux";
 import useFormState from "../../hooks/useFormState";
 import usePasswordVisibility from "../../hooks/usePasswordVisibility";
 import { login } from "../../services/authServices";
 
 import styles from "./AuthForm.module.css";
+import { authActions } from "../../store/auth-slice";
 
 const LoginForm = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  
+  const [passwordType, setPasswordType] = usePasswordVisibility();
   const [loginData, setLoginData] = useFormState({
     email_or_username: "",
     password: "",
   });
-  const [passwordType, setPasswordType] = usePasswordVisibility();
-  const { userLogin } = useContext(AuthDataContext);
-  const navigate = useNavigate();
 
   const onLogin = async (e) => {
     e.preventDefault();
     try {
       const data = await login(loginData);
-      userLogin(data);
+      dispatch(authActions.userLogin(data));
+      // TODO: when the user logs in to fetch the profile data and set it in the Redux user-profile-slice
       navigate('/');
       return data;
     } catch (e) {
