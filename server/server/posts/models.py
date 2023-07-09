@@ -3,6 +3,27 @@ from django.db import models
 from server.profiles.models import Profile
 
 
+class PostManager(models.Manager):
+    def create_post(self, creator, caption, location, disabled_comments, hidden_likes, media_files):
+        post = self.model(
+            creator=creator,
+            caption=caption,
+            location=location,
+            disabled_comments=disabled_comments,
+            hidden_likes=hidden_likes,
+        )
+        post.save()
+
+        for media in media_files:
+            post_media = PostMedia(
+                media=media,
+                creator=creator,
+                post=post
+            )
+            post_media.save()
+
+        return post
+
 class Post(models.Model):
     MAX_LEN_CAPTION = 500
     MAX_LEN_LOCATION = 80
@@ -32,9 +53,11 @@ class Post(models.Model):
         auto_now_add=True
     )
 
+    objects = PostManager()
+
 
 class PostMedia(models.Model):
-    media = models.FileField(upload_to='media/posts')
+    media = models.FileField(upload_to='posts')
     post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE
