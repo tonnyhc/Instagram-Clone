@@ -1,11 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const useFormState = (defaultState) => {
     const [fields, setFields] = useState(defaultState);
-
-    useEffect(() => {
-        setFields(defaultState);
-      }, [defaultState]);
 
     const handleChange = (e) => {
         const { name, value, type, checked  } = e.target;
@@ -15,7 +11,11 @@ const useFormState = (defaultState) => {
         }));
     };
 
-    return [fields, handleChange];
+    const changeDefaultState = (newDefaultState) => {
+        setFields(newDefaultState);
+    }
+
+    return [fields, handleChange, changeDefaultState];
 };
 
 export default useFormState;

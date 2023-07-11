@@ -1,52 +1,5 @@
-// import { useContext, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
-// import { UserContext } from "../../../contexts/ProfileContext";
-// import { removeProfilePicture, updateProfilePicture } from "../../../services/profileServices";
-
-// import Modal from "../../modal/Modal";
-// import styles from "./ChangePictureModal.module.css";
-
-// // const ChangePictureModal = ({ closeFunc, openFileInput, setProfile }) => {
-// //   const {setUserData} = useContext(UserContext);
-
-// //   const removePicture = async (e) => {
-// //     try{
-// //       const data = await removeProfilePicture();
-// //       setUserData(oldData => ({
-// //         ...oldData,
-// //         'profile_picture': data
-// //       }));
-// //       setProfile({
-// //         type: "CHANGE_PROFILE_PICTURE",
-// //         payload: data
-// //       })
-// //       closeFunc();
-// //     } catch(e){
-// //       alert(e);
-// //     }
-// //   };
-
-// //   return (
-// //     <Modal title="Change Profile Picture" size="medium" closeFunc={closeFunc}>
-// //       <div className={styles.wrapper}>
-// //         <div className={styles.row}>
-// //           <button onClick={openFileInput} className={`${styles.btn} ${styles.uploadBtn}`}>Upload Photo</button>
-// //         </div>
-// //         <div className={styles.row}>
-// //           <button onClick={removePicture} className={`${styles.btn} ${styles.removeBtn}`}>Remove Current Photo</button>
-// //         </div>
-// //       </div>
-// //     </Modal>
-// //   );
-// // };
-
-// // export default ChangePictureModal;
-
-
-
-import { useContext, useState, useEffect } from "react";
-
-import { UserContext } from "../../../contexts/ProfileContext";
 import {
   removeProfilePicture,
   updateProfilePicture,
@@ -57,6 +10,8 @@ import Modal from "../../modal/Modal";
 
 import { baseProfilePicturePath } from "../../../utils/config";
 import styles from "./ChangePictureModal.module.css";
+import { useDispatch } from "react-redux";
+import { userProfileActions } from "../../../store/user-profile-slice";
 
 
 const ChangePictureModal = ({
@@ -68,7 +23,7 @@ const ChangePictureModal = ({
   pictureWidth,
   pictureHeigth,
 }) => {
-  const { setUserData } = useContext(UserContext);
+  const dispatch = useDispatch();
   const [isModalOpened, setIsModalOpened] = useState(false);
 
   useEffect(() => {
@@ -79,10 +34,9 @@ const ChangePictureModal = ({
     const changePicture = async () => {
       try {
         const data = await updateProfilePicture(newProfilePicture);
-        setUserData((oldData) => ({
-          ...oldData,
-          profile_picture: data,
-        }));
+        // The dispatch is setting the new profile picture in the Redux state to be used by the navigation
+        dispatch(userProfileActions.changeProfilePicture(data));  
+        // The setProfile is setting the new profile picture in the ProfileDetails state      
         setProfile({
           type: "CHANGE_PROFILE_PICTURE",
           payload: data,
@@ -99,10 +53,9 @@ const ChangePictureModal = ({
   const removePicture = async (e) => {
     try {
       const data = await removeProfilePicture();
-      setUserData((oldData) => ({
-        ...oldData,
-        profile_picture: data,
-      }));
+       // The dispatch is setting the new profile picture in the Redux state to be used by the navigation
+      dispatch(userProfileActions.changeProfilePicture(data)); 
+      // The setProfile is setting the new profile picture in the ProfileDetails state
       setProfile({
         type: "CHANGE_PROFILE_PICTURE",
         payload: null,

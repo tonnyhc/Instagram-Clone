@@ -1,8 +1,9 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import styles from "./AuthForm.module.css";
 import { register } from "../../services/authServices";
 import usePasswordVisibility from "../../hooks/usePasswordVisibility";
-import { AuthDataContext } from "../../contexts/AuthContext";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
 
 
 
@@ -13,7 +14,7 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
     full_name: "",
     password: "",
   });
-  const { userLogin } = useContext(AuthDataContext);
+  const dispatch = useDispatch();
 
   const [passwordType, setPasswordType] = usePasswordVisibility();
 
@@ -22,7 +23,7 @@ const RegisterForm = ({ registerData, setRegisterData, changeStep }) => {
     try {
       const data = await register(registerData);
       changeStep("next");
-      userLogin(data);
+      dispatch(authActions.userLogin(data));
     } catch (e) {
       setFormErrors((oldErrors) => ({
         ...oldErrors,

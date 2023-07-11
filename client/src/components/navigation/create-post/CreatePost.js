@@ -7,16 +7,17 @@ import CreatePostDetails from "./CreatePostDetails";
 
 import styles from "./CreatePost.module.css";
 import CreatePostPhotos from "./CreatePostPhotos";
+import { createPost } from "../../../services/postServices";
 
 const CreatePost = ({ closeModal }) => {
   const inputRef = useRef(null);
   const submitBtnRef = useRef(null);
   const [files, setFiles] = useState([]);
   const [formData, setFormData] = useFormState({
-    description: "",
+    caption: "",
     location: "",
-    hideLikesCount: false,
-    turnOffComments: false,
+    hidden_likes: false,
+    disabled_comments: false,
   });
 
   const openInput = (e) => {
@@ -29,8 +30,27 @@ const CreatePost = ({ closeModal }) => {
     setFiles(selectedFiles);
   };
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    const body = {
+      ...formData,
+      media: [...files]
+    }
+    try{
+      const data = await createPost(body);
+      return data;
+    } catch(e){
+      alert(e);
+    }
+
+    console.log(formData);
+    console.log(files);
+  }
+
+  const topButtonObj = files.length > 0 && {text: "Post", type: "primary"}
+
   return (
-    <Modal size="big" closeFunc={closeModal} title={"Create new post"}>
+    <Modal size="big" closeFunc={closeModal} topButton={topButtonObj} topButtonSubmitFn={onSubmit} title={"Create new post"}>
       <form encType="multipart/form-data" method="POST">
         <input
           data-testid='file-input'
@@ -43,7 +63,7 @@ const CreatePost = ({ closeModal }) => {
         <button hidden ref={submitBtnRef}></button>
       </form>
       {files.length > 0 ? (
-        // Checking if the there are files, to display the pictures
+        // Checking if the there are files to display the pictures
         <div className={styles.wrapper}>
           <div className={styles.content}>
             <CreatePostPhotos files={files} />

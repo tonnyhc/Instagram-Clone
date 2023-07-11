@@ -1,20 +1,23 @@
-import { useContext } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import {AuthDataContext} from '../../contexts/AuthContext'
 import { logout } from "../../services/authServices";
+import { authActions } from "../../store/auth-slice";
 
 const Logout = () => {
-    const navigate = useNavigate();
-    const {authUserData, userLogout} = useContext(AuthDataContext);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const authUserData = useSelector((state) => state.auth.authUserData);
 
-    logout(authUserData.token)
-    .then(() => {
-        userLogout();
-        navigate('/');
+  useEffect(() => {
+    logout(authUserData.token).then(() => {
+      navigate("/");
+      dispatch(authActions.userLogout());
     });
+  }, []);
 
-    return null;
-}
+  return null;
+};
 
 export default Logout;

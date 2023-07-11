@@ -42,7 +42,7 @@ const CreatePostPhotos = ({ files, setFiles }) => {
               selectedPhoto.index == index ? styles.active : undefined
             }`}
           >
-            <i class="fa-solid fa-circle"></i>
+            <i className="fa-solid fa-circle"></i>
           </span>
         ))}
       </div>
@@ -54,7 +54,7 @@ const CreatePostPhotos = ({ files, setFiles }) => {
               <button onClick={(e) => changeCurrentPicture(e, "previous")}>
                 <div className={styles.arrowWrapper}>
                   <span className={styles.arrow}>
-                    <i class="fa-solid fa-chevron-left"></i>
+                    <i className="fa-solid fa-chevron-left"></i>
                   </span>
                 </div>
               </button>
@@ -65,7 +65,7 @@ const CreatePostPhotos = ({ files, setFiles }) => {
               <button onClick={(e) => changeCurrentPicture(e, "next")}>
                 <div className={styles.arrowWrapper}>
                   <span className={styles.arrow}>
-                    <i class="fa-solid fa-chevron-right"></i>
+                    <i className="fa-solid fa-chevron-right"></i>
                   </span>
                 </div>
               </button>

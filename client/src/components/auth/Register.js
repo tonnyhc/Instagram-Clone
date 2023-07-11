@@ -1,15 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import useFormState from "../../hooks/useFormState";
 import styles from "./AuthForm.module.css";
 import RegisterForm from "./RegisterForm";
 import EmailConfirmation from "./EmailConfirmation";
 import { submitRegisterConfirmationCode } from "../../services/authServices";
-import { AuthDataContext } from "../../contexts/AuthContext";
+import { useDispatch } from "react-redux";
+import { authActions } from "../../store/auth-slice";
 
 const Register = ({ step }) => {
-  const { authUserData, userConfirmEmail, userLogin } = useContext(AuthDataContext);
+  const authUserData = useSelector((state) => state.auth.authUserData);
+  const dispatch = useDispatch();
   const [registerData, setRegisterData] = useFormState({
     email: authUserData.email || "",
     full_name: "",
@@ -36,7 +39,7 @@ const Register = ({ step }) => {
     e.preventDefault();
     try{
       const data = await submitRegisterConfirmationCode(confirmationCode.code, registerData.email);
-      userConfirmEmail();
+      dispatch(authActions.userConfirmEmail());
       navigate('/');
       return data;
     } catch(e){

@@ -1,19 +1,17 @@
-import { useRef, useState, useContext } from "react";
+import { useRef, useState } from "react";
 import { NavLink } from "react-router-dom";
 
-import { AuthDataContext } from "../../../contexts/AuthContext";
 import OverlayContainer from "../overlay/OverlayContainer";
 
 import styles from "./SideNav.module.css";
 import useClickOutside from "../../../hooks/useClickOutside";
 import CreatePost from "../create-post/CreatePost";
-import { UserContext } from "../../../contexts/ProfileContext";
 
 import {igLogoBig, baseProfilePicturePath} from "../../../utils/config";
+import { useSelector } from "react-redux";
 
 const SideNav = () => {
-  const { authUserData } = useContext(AuthDataContext);
-  const { userData } = useContext(UserContext);
+  const userData = useSelector((state) => state.userProfile.userData);
   const [activeNavItem, setActiveNavItem] = useState({
     navLink: "home",
     popUp: null,

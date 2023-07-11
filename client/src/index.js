@@ -1,8 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App";
 import { BrowserRouter } from "react-router-dom";
-
+import { Provider } from "react-redux";
+import App from "./App";
+import store from "./store";
 import styles from "./index.module.css";
 import { AuthProvider } from "./contexts/AuthContext";
 
@@ -11,9 +12,9 @@ root.render(
   <div className={styles.appWrapper}>
     <React.StrictMode>
       <BrowserRouter>
-        <AuthProvider>
+        <Provider store={store}>
           <App />
-        </AuthProvider>
+        </Provider>
       </BrowserRouter>
     </React.StrictMode>
   </div>

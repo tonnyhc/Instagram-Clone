@@ -1,13 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import useFormState from "../../../../hooks/useFormState";
-import { baseProfilePicturePath } from "../../../../utils/config";
 import Button from "../../../common/button/Button";
 import styles from "../ProfileSettings.module.css";
 import {
   fetchProfileDetailsForEdit,
   updateProfileDetails,
 } from "../../../../services/profileServices";
-import ProfilePicture from "../../../common/profile-picture/ProfilePicture";
 import ChangePictureModal from "../../change-profile-picture-modal/ChangePictureModal";
 
 const EditProfile = () => {
@@ -18,14 +16,14 @@ const EditProfile = () => {
     profile_picture: "",
   });
 
-  const [formData, setFormData] = useFormState(fetchedData);
+  const [formData, setFormData, changeDefaultState] = useFormState(fetchedData);
   const [newProfilePicture, setNewProfilePicture] = useState(null);
 
   useEffect(() => {
     (async () => {
       const data = await fetchProfileDetailsForEdit();
       setFetchedData(data);
-      console.log(data);
+      changeDefaultState(data);
     })();
   }, []);
 

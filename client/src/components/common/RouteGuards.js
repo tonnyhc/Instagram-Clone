@@ -1,11 +1,11 @@
-import { useContext, useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
-import { AuthDataContext } from "../../contexts/AuthContext";
+import { useSelector } from "react-redux";
 
 const restrictedRoutes = ['/login', '/register'];
 
 export const AuthGuard = ({ children, }) => {
-  const { isAuth, authUserData } = useContext(AuthDataContext);
+  const authState = useSelector((state) => state.auth);
+  const { isAuth, authUserData } = {...authState}; 
 
   if (!isAuth) {
     return <Navigate to="/login" />;

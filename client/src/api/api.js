@@ -1,4 +1,5 @@
 import {apiHost} from "../utils/config";
+import { createBodyForMultipartFormData } from "../utils/helperFunctions";
 
 const requester = async (url, method, body, contentType, token) => {
   const host = apiHost + "/api/";
@@ -12,15 +13,21 @@ const requester = async (url, method, body, contentType, token) => {
     Authorization: `Token ${token}`,
   };
 
-  if (contentType == "formData") {
-  } else {
+  // Checking if the content type is multipart/form-data or a JSON
+  if (!contentType) {
     headers["Content-Type"] = "application/json";
+  };
+  let finalBody;
+  if (contentType == 'formData'){
+    finalBody = createBodyForMultipartFormData(body);
+  } else {
+    finalBody = JSON.stringify(body);
   }
 
   const options = {
     method: method,
     headers: headers,
-    body: contentType == "formData" ? body : JSON.stringify(body),
+    body: finalBody,
   };
 
   try {

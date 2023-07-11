@@ -1,7 +1,9 @@
 import { useRef } from "react";
+
+import Button from '../common/button/Button'
 import styles from "./Modal.module.css";
 
-const Modal = ({ children, size, title, footer, closeFunc }) => {
+const Modal = ({ children, size, title, footer, closeFunc, topButton, topButtonSubmitFn }) => {
   const overlayContainerRef = useRef(null);
   const modalRef = useRef(null);
 
@@ -19,6 +21,9 @@ const Modal = ({ children, size, title, footer, closeFunc }) => {
       <div className={`${styles.modal} ${styles[size]}`} ref={modalRef}>
         <div className={styles.modalHeader}>
           <p className={styles.modalTitle}>{title}</p>
+          {topButton && 
+          <Button onClick={topButtonSubmitFn} type={topButton.type} text={topButton.text}/>
+          }
           <button onClick={() => closeFunc(false)} className={styles.closeBtn}>
             &times;
           </button>
@@ -28,6 +33,7 @@ const Modal = ({ children, size, title, footer, closeFunc }) => {
 
         {footer && (
           <div className={styles.modalFooter}>
+            {/* TODO: Replace this with the button component */}
             <button className={`${styles.btn} ${styles.btnPrimary}`}>
               Save changes
             </button>

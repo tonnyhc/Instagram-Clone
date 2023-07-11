@@ -25,8 +25,8 @@ const CreatePostDetails = ({ formData, setFormData }) => {
       <div className={styles.description}>
         <textarea
           maxLength={500}
-          name="description"
-          id="description"
+          name="caption"
+          id="caption"
           cols="30"
           rows="10"
           placeholder="Write a caption..."
@@ -34,7 +34,7 @@ const CreatePostDetails = ({ formData, setFormData }) => {
           onChange={setFormData}
         ></textarea>
         <div className={styles.charsCount}>
-          {formData.description.length}/500
+          {formData.caption.length}/500
         </div>
       </div>
       <div className={styles.location}>
@@ -73,15 +73,15 @@ const CreatePostDetails = ({ formData, setFormData }) => {
                 <p>Hide like and view counts on this post</p>
                 <input
                   onChange={(e) => setFormData(e)}
-                  name="hideLikesCount"
+                  name="hidden_likes"
                   ref={hideLikesInputRef}
                   type="checkbox"
                   hidden
-                  checked={formData.hideLikesCount}
+                  checked={formData.hidden_likes}
                 />
                 <Slider
                   onClickFunc={(e) => onClickSlider(hideLikesInputRef)}
-                  checked={formData.hideLikesCount}
+                  checked={formData.hidden_likes}
                 />
               </div>
               <span className={styles.optionInfo}>
@@ -97,15 +97,15 @@ const CreatePostDetails = ({ formData, setFormData }) => {
                 <p>Turn off commenting</p>
                 <input
                   onChange={(e) => setFormData(e)}
-                  name="turnOffComments"
+                  name="disabled_comments"
                   ref={turnOffCommentsRef}
                   type="checkbox"
                   hidden
-                  checked={formData.turnOffComments}
+                  checked={formData.disabled_comments}
                 />
                 <Slider
                   onClickFunc={(e) => onClickSlider(turnOffCommentsRef)}
-                  checked={formData.turnOffComments}
+                  checked={formData.disabled_comments}
                 />
               </div>
               <span className={styles.optionInfo}>
