@@ -4,6 +4,7 @@ import styles from "./Profile.module.css";
 import ProfileDetails from "./ProfileDetails";
 import { fetchProfileDetails } from "../../services/profileServices";
 import profileReducer from "../../reducers/profileReducer";
+import ProfilePosts from "./profile-posts/ProfilePosts";
 
 const Profile = () => {
   const { username } = useParams();
@@ -39,6 +40,7 @@ const Profile = () => {
           friendship_status={profile.friendship_status}
           setProfile={setProfile}
         />
+        <ProfilePosts />
       </div>
     </section>
   );

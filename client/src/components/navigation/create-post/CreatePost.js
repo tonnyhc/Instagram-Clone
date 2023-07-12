@@ -35,7 +35,7 @@ const CreatePost = ({ closeModal }) => {
     const body = {
       ...formData,
       media: [...files]
-    }
+    };
     try{
       const data = await createPost(body);
       return data;
@@ -43,8 +43,6 @@ const CreatePost = ({ closeModal }) => {
       alert(e);
     }
 
-    console.log(formData);
-    console.log(files);
   }
 
   const topButtonObj = files.length > 0 && {text: "Post", type: "primary"}
