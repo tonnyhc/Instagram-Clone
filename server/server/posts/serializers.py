@@ -9,7 +9,9 @@ class PostSerializer(serializers.ModelSerializer):
     creator = serializers.SerializerMethodField()
 
     def get_media_files(self, obj):
-        return [file.media.url for file in obj.postmedia_set.all()]
+        request = self.context.get('request')
+        return [request.build_absolute_uri(media.media.url) for media in obj.postmedia_set.all()]
+        # return [file.media.url for file in obj.postmedia_set.all()]
 
     def get_creator(self, obj):
         return BaseProfileSerializer(obj.creator).data

@@ -24,6 +24,9 @@ class PostManager(models.Manager):
 
         return post
 
+    def get_posts_for_profile(self, profile):
+        return self.filter(creator=profile).order_by('-created_at')
+
 class Post(models.Model):
     MAX_LEN_CAPTION = 500
     MAX_LEN_LOCATION = 80
