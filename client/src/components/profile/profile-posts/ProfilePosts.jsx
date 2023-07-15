@@ -1,7 +1,26 @@
+import { useEffect, useState } from "react";
+
 import PostCard from "./PostCard";
 import styles from "./ProfilePosts.module.css";
+import { getProfilePosts } from "../../../services/postServices";
+import { useParams } from "react-router-dom";
 
 const ProfilePosts = () => {
+  const [posts, setPosts] = useState([]);
+
+  const { username } = useParams();
+
+  useEffect(() => {
+    (async () => {
+      try{
+        const data = await getProfilePosts(username);
+        setPosts(data);
+      } catch(e){
+        alert(e);
+      }
+    })();
+  }, []);
+
   return (
     <>
       <div className={styles.postsWrapper}>
@@ -28,11 +47,7 @@ const ProfilePosts = () => {
       </div>
 
       <div className={styles.posts}>
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
-        <PostCard />
+        {posts.map(post => <PostCard post={post}/>)}
       </div>
     </>
   );
